@@ -1,0 +1,189 @@
+---
+/**
+ * Editorial Hero Slider — Himalayan Echoes
+ * Three slides:
+ *   1. Slider-1 image (Welcome / Journeys that transform)
+ *   2. Slider-2 image (Transformation / Where time stands still)
+ *   3. Vimeo background video (same copy as slide 1)
+ */
+
+type SlideKind = "image" | "video";
+interface Slide {
+  kind: SlideKind;
+  src: string;
+  vimeoId?: string;
+  eyebrow: string;
+  title: string;
+  lede: string;
+}
+
+const slides: Slide[] = [
+  {
+    kind: "image",
+    src: "/images/slider-1.png",
+    eyebrow: "Welcome to Himalayan Echoes",
+    title: "Journeys that transform",
+    lede: "Curated luxury journeys across Bhutan, Ladakh, Nepal and the remote Himalayas.",
+  },
+  {
+    kind: "image",
+    src: "/images/slider-2.png",
+    eyebrow: "Transformation",
+    title: "Where time stands still",
+    lede: "Trek pristine trails and explore untouched Himalayan wilderness.",
+  },
+  {
+    kind: "video",
+    src: "",
+    vimeoId: "1149118501",
+    eyebrow: "Welcome to Himalayan Echoes",
+    title: "Journeys that transform",
+    lede: "Curated luxury journeys across Bhutan, Ladakh, Nepal and the remote Himalayas.",
+  },
+];
+---
+
+<section class="relative w-full h-screen overflow-hidden bg-charcoal" id="hero">
+  <!-- Swiper container -->
+  <div class="hero-swiper">
+    <div class="swiper-wrapper">
+      {slides.map((slide) => (
+        <div class="swiper-slide">
+          {/* Media layer */}
+          <div class="absolute inset-0">
+            {slide.kind === "image" && (
+              <img
+                src={slide.src}
+                alt={slide.title}
+                class="kb-image w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            )}
+            {slide.kind === "video" && (
+              <div class="absolute inset-0 w-full h-full">
+                <iframe
+                  src={`https://player.vimeo.com/video/${slide.vimeoId}?background=1&autoplay=1&loop=1&muted=1&controls=0&dnt=1`}
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                  style="width: 177.77vh; height: 56.25vw; min-width: 100%; min-height: 100%;"
+                  frameborder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  title="Himalayan Echoes — cinematic"
+                ></iframe>
+              </div>
+            )}
+            {/* Cinematic gradient overlays */}
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-charcoal/80"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-charcoal/55 via-charcoal/15 to-transparent"></div>
+          </div>
+
+          {/* Copy layer */}
+          <div class="relative z-10 h-full flex items-end pb-24 md:pb-32">
+            <div class="container-edge mx-auto w-full">
+              <div class="max-w-4xl text-cream">
+                <p class="text-eyebrow text-cream/85 mb-6 slide-eyebrow">
+                  {slide.eyebrow}
+                </p>
+                <h1 class="text-hero font-display leading-[0.95] slide-title">
+                  {slide.title}
+                </h1>
+                <p class="text-lede mt-8 max-w-2xl text-cream/85 slide-lede">
+                  {slide.lede}
+                </p>
+
+                <div class="mt-12 flex flex-wrap items-center gap-5 slide-cta">
+                  <a
+                    href="/journeys"
+                    class="inline-flex items-center gap-3 bg-brand-orange text-cream rounded-full px-7 py-4 text-sm hover:bg-brand-yellow hover:text-charcoal transition-colors duration-500"
+                  >
+                    Explore journeys
+                    <span aria-hidden="true">→</span>
+                  </a>
+                  <a
+                    href="#story"
+                    class="inline-flex items-center gap-3 border border-cream/60 text-cream rounded-full px-7 py-4 text-sm hover:bg-cream hover:text-charcoal transition-colors duration-500"
+                  >
+                    Our story
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Custom vertical pagination */}
+  <div class="hero-pagination" aria-hidden="true"></div>
+
+  {/* Scroll cue */}
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-cream/70 z-20 hidden md:flex flex-col items-center gap-3">
+    <span class="text-eyebrow">Scroll</span>
+    <span class="block w-px h-10 bg-cream/40 relative overflow-hidden">
+      <span class="absolute top-0 left-0 right-0 h-1/3 bg-cream animate-scrollCue"></span>
+    </span>
+  </div>
+</section>
+
+<style>
+  @keyframes scrollCue {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(300%); }
+  }
+  .animate-scrollCue {
+    animation: scrollCue 2.4s var(--ease-in-out-quart) infinite;
+  }
+</style>
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/effect-fade";
+  import { gsap } from "gsap";
+
+  const SLIDE_DURATION = 6000;
+
+  const swiper = new Swiper(".hero-swiper", {
+    modules: [Autoplay, EffectFade, Pagination],
+    effect: "fade",
+    fadeEffect: { crossFade: true },
+    speed: 1200,
+    loop: true,
+    autoplay: {
+      delay: SLIDE_DURATION,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".hero-pagination",
+      clickable: true,
+      bulletClass: "",
+      bulletActiveClass: "is-active",
+      renderBullet: (_index, className) => {
+        return `<button class="${className}" aria-label="Go to slide"></button>`;
+      },
+    },
+    on: {
+      init(s) {
+        animateSlideIn(s.slides[s.activeIndex]);
+      },
+      slideChangeTransitionStart(s) {
+        animateSlideIn(s.slides[s.activeIndex]);
+      },
+    },
+  });
+
+  function animateSlideIn(slideEl: HTMLElement) {
+    const eyebrow = slideEl.querySelector(".slide-eyebrow");
+    const title = slideEl.querySelector(".slide-title");
+    const lede = slideEl.querySelector(".slide-lede");
+    const cta = slideEl.querySelector(".slide-cta");
+
+    gsap.set([eyebrow, title, lede, cta], { opacity: 0, y: 30 });
+    gsap.to(eyebrow, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", delay: 0.2 });
+    gsap.to(title,   { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", delay: 0.35 });
+    gsap.to(lede,    { opacity: 1, y: 0, duration: 1.0, ease: "expo.out", delay: 0.55 });
+    gsap.to(cta,     { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", delay: 0.75 });
+  }
+</script>

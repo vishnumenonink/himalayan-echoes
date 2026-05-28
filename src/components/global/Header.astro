@@ -10,12 +10,21 @@ const { transparent = false } = Astro.props;
   data-transparent={transparent}
   class:list={[
     "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-    transparent ? "text-cream" : "text-ink bg-cream/85 backdrop-blur",
+    transparent ? "text-cream" : "text-ink bg-cream/90 backdrop-blur",
   ]}
 >
-  <div class="container-edge mx-auto flex items-center justify-between py-6">
-    <a href="/" class="font-display text-xl tracking-tight" aria-label="Himalayan Echoes home">
-      Himalayan Echoes
+  <div class="container-edge mx-auto flex items-center justify-between py-5">
+    <a href="/" class="flex items-center gap-3" aria-label="Himalayan Echoes home">
+      <img
+        src="/logo/logo.png"
+        alt="Himalayan Echoes"
+        class="h-12 w-auto site-logo"
+        width="48"
+        height="48"
+      />
+      <span class="font-display text-lg tracking-tight hidden sm:inline">
+        Himalayan Echoes
+      </span>
     </a>
 
     <nav class="hidden md:flex items-center gap-10 text-sm">
@@ -46,17 +55,25 @@ const { transparent = false } = Astro.props;
   </div>
 </header>
 
+<style>
+  /* When header is transparent (over dark hero), invert logo to cream */
+  header[data-transparent="true"]:not(.is-scrolled) .site-logo {
+    filter: brightness(0) invert(1);
+  }
+</style>
+
 <script>
-  // Header background swap on scroll (only when transparent variant)
   const header = document.getElementById("site-header");
   if (header && header.dataset.transparent === "true") {
     const onScroll = () => {
       if (window.scrollY > 60) {
+        header.classList.add("is-scrolled");
         header.classList.remove("text-cream");
-        header.classList.add("text-ink", "bg-cream/85", "backdrop-blur");
+        header.classList.add("text-ink", "bg-cream/90", "backdrop-blur");
       } else {
+        header.classList.remove("is-scrolled");
         header.classList.add("text-cream");
-        header.classList.remove("text-ink", "bg-cream/85", "backdrop-blur");
+        header.classList.remove("text-ink", "bg-cream/90", "backdrop-blur");
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });

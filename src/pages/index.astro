@@ -1,17 +1,41 @@
 ---
-
+import Base from "../layouts/Base.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title="Himalayan Echoes — Crafted Journeys Through the Himalayas"
+  description="Bespoke, deeply considered journeys through Bhutan, Nepal, Tibet, and the wider Himalayan world."
+  transparentHeader={true}
+>
+  <!-- ============================================================
+       Foundation placeholder — sections will land here next.
+       Order (planned):
+         1. Hero (cinematic, video/image)
+         2. Intro / Story (editorial scroll reveal)
+         3. Featured Destinations (slider — Travora-style)
+         4. Immersive Nature (Matour-style)
+         5. Itinerary teaser (vertical scroll story)
+         6. Testimonials
+         7. Journal teaser
+       ============================================================ -->
+
+  <section class="min-h-screen flex items-center justify-center bg-ink text-cream">
+    <div class="text-center container-edge">
+      <p class="text-eyebrow text-cream/60 mb-6 reveal-fast">Foundation laid</p>
+      <h1 class="text-display max-w-4xl mx-auto reveal">
+        Himalayan Echoes
+      </h1>
+      <p class="text-lede text-cream/70 mt-8 max-w-xl mx-auto reveal">
+        Design system, smooth scroll, and animation engine wired.<br />
+        Sections begin landing next.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-y container-edge mx-auto">
+    <p class="text-eyebrow text-ink-mute mb-6 reveal-fast">Next up</p>
+    <h2 class="text-h1 max-w-3xl reveal">
+      The hero. The story. The slider. Then the journeys.
+    </h2>
+  </section>
+</Base>

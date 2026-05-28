@@ -1,1 +1,163 @@
 @import "tailwindcss";
+
+/* ============================================================
+   Himalayan Echoes — Design Tokens (Tailwind v4)
+   ============================================================ */
+
+@theme {
+  /* ---------- Colors ---------- */
+  /* Backgrounds */
+  --color-cream: #F5F1EA;        /* primary background — parchment */
+  --color-paper: #FAF7F1;        /* lighter surface */
+  --color-snow: #FFFFFF;
+
+  /* Inks */
+  --color-ink: #1C1B17;          /* primary text — warm black */
+  --color-ink-soft: #3A382F;     /* secondary text */
+  --color-ink-mute: #6B6557;     /* muted text */
+
+  /* Accents */
+  --color-clay: #8B4A2B;         /* warm terracotta — monastery */
+  --color-clay-deep: #5E3219;
+  --color-slate-mountain: #2D4A52;
+  --color-sage: #8A9B7E;         /* prayer-flag soft */
+  --color-gold: #B89968;         /* warm gilt */
+
+  /* Lines */
+  --color-line: #E5DFD2;
+  --color-line-soft: #EFEAE0;
+
+  /* ---------- Fonts ---------- */
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body: "Inter Tight", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---------- Type Scale (fluid) ---------- */
+  --text-mega: clamp(4rem, 12vw, 10rem);     /* hero display */
+  --text-display: clamp(3rem, 7vw, 6rem);    /* section display */
+  --text-h1: clamp(2.5rem, 5vw, 4rem);
+  --text-h2: clamp(2rem, 3.5vw, 3rem);
+  --text-h3: clamp(1.5rem, 2.5vw, 2rem);
+  --text-lede: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-eyebrow: 0.75rem;
+
+  /* ---------- Spacing & Layout ---------- */
+  --spacing-section: clamp(5rem, 10vw, 9rem);
+  --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
+
+  /* ---------- Radius ---------- */
+  --radius-soft: 4px;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+
+  /* ---------- Easing ---------- */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ============================================================
+   Base Styles
+   ============================================================ */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: var(--color-cream);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  /* Editorial serif looks better with optical sizing on */
+  .font-display, h1, h2, h3, h4, h5, h6 {
+    font-optical-sizing: auto;
+    font-variation-settings:
+      "SOFT" 30,
+      "WONK" 0,
+      "opsz" 144;
+  }
+
+  ::selection {
+    background: var(--color-clay);
+    color: var(--color-cream);
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Hide scrollbar but keep functional (we'll use Lenis) */
+  html.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Utility helpers
+   ============================================================ */
+
+@layer utilities {
+  .text-mega { font-size: var(--text-mega); }
+  .text-display { font-size: var(--text-display); }
+  .text-h1 { font-size: var(--text-h1); }
+  .text-h2 { font-size: var(--text-h2); }
+  .text-h3 { font-size: var(--text-h3); }
+  .text-lede { font-size: var(--text-lede); }
+  .text-eyebrow {
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+  }
+
+  .container-edge {
+    padding-left: var(--spacing-gutter);
+    padding-right: var(--spacing-gutter);
+  }
+
+  .section-y {
+    padding-top: var(--spacing-section);
+    padding-bottom: var(--spacing-section);
+  }
+
+  /* Fade-up reveal initial state (GSAP will animate to visible) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .reveal-fast {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  /* Image hover for cards */
+  .img-zoom {
+    overflow: hidden;
+  }
+  .img-zoom > img,
+  .img-zoom > video {
+    transition: transform 1.2s var(--ease-out-expo);
+  }
+  .img-zoom:hover > img,
+  .img-zoom:hover > video {
+    transform: scale(1.06);
+  }
+}

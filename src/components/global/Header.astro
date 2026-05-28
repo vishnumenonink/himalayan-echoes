@@ -1,0 +1,65 @@
+---
+interface Props {
+  transparent?: boolean;
+}
+const { transparent = false } = Astro.props;
+---
+
+<header
+  id="site-header"
+  data-transparent={transparent}
+  class:list={[
+    "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+    transparent ? "text-cream" : "text-ink bg-cream/85 backdrop-blur",
+  ]}
+>
+  <div class="container-edge mx-auto flex items-center justify-between py-6">
+    <a href="/" class="font-display text-xl tracking-tight" aria-label="Himalayan Echoes home">
+      Himalayan Echoes
+    </a>
+
+    <nav class="hidden md:flex items-center gap-10 text-sm">
+      <a href="/journeys" class="hover:opacity-70 transition">Journeys</a>
+      <a href="/#destinations" class="hover:opacity-70 transition">Destinations</a>
+      <a href="/#story" class="hover:opacity-70 transition">Our Story</a>
+      <a href="/#journal" class="hover:opacity-70 transition">Journal</a>
+    </nav>
+
+    <a
+      href="#enquire"
+      class="hidden md:inline-flex items-center gap-2 text-sm border border-current rounded-full px-5 py-2.5 hover:bg-current hover:text-cream transition-colors duration-300"
+    >
+      Begin a Journey
+      <span aria-hidden="true">→</span>
+    </a>
+
+    <button
+      id="mobile-menu-toggle"
+      class="md:hidden p-2"
+      aria-label="Open menu"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="3" y1="8" x2="21" y2="8" />
+        <line x1="3" y1="16" x2="21" y2="16" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  // Header background swap on scroll (only when transparent variant)
+  const header = document.getElementById("site-header");
+  if (header && header.dataset.transparent === "true") {
+    const onScroll = () => {
+      if (window.scrollY > 60) {
+        header.classList.remove("text-cream");
+        header.classList.add("text-ink", "bg-cream/85", "backdrop-blur");
+      } else {
+        header.classList.add("text-cream");
+        header.classList.remove("text-ink", "bg-cream/85", "backdrop-blur");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>

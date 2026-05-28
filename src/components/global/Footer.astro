@@ -1,0 +1,79 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink text-cream">
+  <div class="container-edge mx-auto py-24">
+    <div class="grid md:grid-cols-12 gap-12 items-end">
+      <div class="md:col-span-7">
+        <p class="text-eyebrow text-cream/60 mb-6">Begin a journey</p>
+        <h2 class="text-display max-w-3xl">
+          Stories woven<br />from the high places.
+        </h2>
+      </div>
+
+      <div class="md:col-span-5 md:text-right">
+        <a
+          href="#enquire"
+          class="inline-flex items-center gap-3 border border-cream/40 rounded-full px-7 py-4 hover:bg-cream hover:text-ink transition-colors duration-500"
+        >
+          Plan your journey
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <hr class="border-cream/15 my-16" />
+
+    <div class="grid md:grid-cols-12 gap-8 text-sm">
+      <div class="md:col-span-4">
+        <p class="font-display text-2xl mb-3">Himalayan Echoes</p>
+        <p class="text-cream/60 max-w-xs leading-relaxed">
+          Bespoke, deeply considered journeys through Bhutan, Nepal, Tibet, and
+          the wider Himalayan world.
+        </p>
+      </div>
+
+      <div class="md:col-span-2">
+        <p class="text-eyebrow text-cream/50 mb-4">Explore</p>
+        <ul class="space-y-2.5">
+          <li><a href="/journeys" class="hover:opacity-70">Journeys</a></li>
+          <li><a href="/#destinations" class="hover:opacity-70">Destinations</a></li>
+          <li><a href="/#journal" class="hover:opacity-70">Journal</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-2">
+        <p class="text-eyebrow text-cream/50 mb-4">About</p>
+        <ul class="space-y-2.5">
+          <li><a href="/#story" class="hover:opacity-70">Our Story</a></li>
+          <li><a href="#" class="hover:opacity-70">Press</a></li>
+          <li><a href="#" class="hover:opacity-70">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4">
+        <p class="text-eyebrow text-cream/50 mb-4">Whispers from the mountains</p>
+        <form class="flex border-b border-cream/30 pb-2">
+          <input
+            type="email"
+            placeholder="Your email"
+            class="bg-transparent flex-1 outline-none placeholder:text-cream/40 text-sm"
+          />
+          <button class="text-sm hover:opacity-70 transition" aria-label="Subscribe">
+            Subscribe →
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-cream/15 flex flex-col md:flex-row md:justify-between gap-4 text-xs text-cream/50">
+      <p>© {year} Himalayan Echoes. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-cream">Privacy</a>
+        <a href="#" class="hover:text-cream">Terms</a>
+        <a href="#" class="hover:text-cream">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>

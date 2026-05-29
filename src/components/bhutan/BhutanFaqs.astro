@@ -1,0 +1,84 @@
+---
+/**
+ * Bhutan FAQs — 5 questions, accordion expand/collapse.
+ */
+
+interface Faq {
+  question: string;
+  answer: string;
+}
+
+const faqs: Faq[] = [
+  {
+    question: "Is Bhutan expensive to visit?",
+    answer: "Bhutan is not a mass-tourism destination, so it can cost more than many other places in Asia. Visitors pay a Sustainable Development Fee, which supports healthcare, education, conservation, culture and infrastructure. With Himalayan Echoes, the focus is on making every day feel meaningful, seamless and deeply personal.",
+  },
+  {
+    question: "Do I need a visa to visit Bhutan?",
+    answer: "Most international travellers need a visa before entering Bhutan. Indian nationals require a permit rather than a visa. Himalayan Echoes can guide you through the process and arrange the necessary travel documentation for your journey.",
+  },
+  {
+    question: "How much is the Bhutan visa fee?",
+    answer: "Bhutan charges a one-off visa application fee of USD 40. This is paid alongside the Sustainable Development Fee during the visa application process.",
+  },
+  {
+    question: "What is the Sustainable Development Fee in Bhutan?",
+    answer: "The Sustainable Development Fee, or SDF, is a daily fee paid by visitors to support Bhutan's long-term development. It helps fund free healthcare, education, environmental protection, cultural preservation and tourism infrastructure.",
+  },
+  {
+    question: "How much is the SDF in Bhutan?",
+    answer: "The SDF is currently USD 100 per adult per night for most international visitors, with concessionary rates for children. Indian nationals pay a different SDF rate.",
+  },
+];
+---
+
+<section id="bhutan-faqs" class="bg-cream relative py-20 lg:py-24">
+  <div class="container-edge mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+      <div class="lg:col-span-4">
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Your Questions Answered</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink reveal">
+          Bhutan travel FAQs.
+        </h2>
+      </div>
+
+      <div class="lg:col-span-8">
+        <div class="divide-y divide-ink/15 border-t border-b border-ink/15">
+          {faqs.map((f) => (
+            <details class="faq-item group">
+              <summary class="flex items-center justify-between gap-6 py-6 lg:py-7 cursor-pointer list-none">
+                <span class="font-display text-h3 text-ink leading-[1.2] flex-1 transition-colors group-hover:text-brand-orange">
+                  {f.question}
+                </span>
+                <span class="faq-icon shrink-0 w-10 h-10 rounded-full border border-ink/25 flex items-center justify-center text-ink transition-all duration-500 group-hover:bg-brand-orange group-hover:text-cream group-hover:border-brand-orange">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="faq-plus">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <div class="pb-7 pr-16 text-ink-soft text-base leading-relaxed">
+                {f.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::marker { display: none; }
+
+  .faq-item[open] .faq-plus {
+    transform: rotate(45deg);
+    transition: transform 0.4s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  .faq-plus {
+    transition: transform 0.4s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+</style>

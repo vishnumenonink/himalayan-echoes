@@ -1,0 +1,91 @@
+---
+/**
+ * Bhutan today — single-image-at-a-time carousel.
+ * Image is contained within a max-width so the section has visible breathing
+ * space on both sides. Click arrows to advance.
+ */
+
+const images = [
+  "/images/bhutan-carousel-1.webp",
+  "/images/bhutan-carousel-2.webp",
+  "/images/bhutan-carousel-3.webp",
+  "/images/bhutan-carousel-4.webp",
+  "/images/bhutan-carousel-5.webp",
+];
+---
+
+<section id="bhutan-today" class="bg-cream relative py-20 lg:py-24">
+  <div class="container-edge mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-14">
+      <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Why Bhutan</p>
+      <h2 class="font-display text-h1 leading-[1.02] text-ink reveal">
+        Bhutan today.
+      </h2>
+    </div>
+
+    {/* Carousel — constrained width so it sits with breathing room */}
+    <div class="relative max-w-5xl mx-auto">
+
+      <div class="today-swiper !overflow-hidden rounded-2xl">
+        <div class="swiper-wrapper">
+          {images.map((src, i) => (
+            <div class="swiper-slide">
+              <div class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl bg-charcoal">
+                <img src={src} alt={`Bhutan ${i + 1}`} class="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Overlay arrows */}
+      <button class="td-prev hidden md:flex absolute top-1/2 -left-5 lg:-left-7 -translate-y-1/2 w-14 h-14 rounded-full bg-cream border border-ink/15 text-ink items-center justify-center shadow-lg hover:bg-brand-orange hover:text-cream hover:border-brand-orange transition-colors duration-300 z-20"
+              aria-label="Previous image">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+      </button>
+      <button class="td-next hidden md:flex absolute top-1/2 -right-5 lg:-right-7 -translate-y-1/2 w-14 h-14 rounded-full bg-cream border border-ink/15 text-ink items-center justify-center shadow-lg hover:bg-brand-orange hover:text-cream hover:border-brand-orange transition-colors duration-300 z-20"
+              aria-label="Next image">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+
+      {/* Counter centered below */}
+      <div class="mt-8 flex items-center justify-center">
+        <div class="text-sm tracking-widest font-mono text-ink-mute">
+          <span class="td-current">01</span>
+          <span class="opacity-50 mx-1">/</span>
+          <span>0{images.length}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".today-swiper", {
+    modules: [Navigation],
+    slidesPerView: 1,
+    spaceBetween: 0,
+    speed: 600,
+    loop: true,
+    navigation: { prevEl: ".td-prev", nextEl: ".td-next" },
+    on: {
+      init(s) { updateCounter(s.realIndex); },
+      slideChange(s) { updateCounter(s.realIndex); },
+    },
+  });
+
+  function updateCounter(realIndex: number) {
+    const el = document.querySelector(".td-current");
+    if (el) el.textContent = String(realIndex + 1).padStart(2, "0");
+  }
+</script>

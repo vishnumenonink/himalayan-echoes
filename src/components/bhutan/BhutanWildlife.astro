@@ -1,0 +1,97 @@
+---
+/**
+ * Bhutan Wildlife — image LEFT, content RIGHT.
+ * Content has a Read More toggle: first 2 paragraphs visible, last 2 collapsed.
+ */
+---
+
+<section id="bhutan-wildlife" class="bg-cream relative py-20 lg:py-24">
+  <div class="container-edge mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+      {/* Content LEFT — with top padding so it doesn't start at image-top */}
+      <div class="lg:col-span-6 lg:pt-12 xl:pt-16">
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">A National Treasure</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink mb-8 reveal">
+          Bhutan wildlife.
+        </h2>
+
+        <div class="space-y-5 text-ink-soft text-base lg:text-lg leading-relaxed">
+          <p class="reveal">
+            With over 70% of its land covered in forest, Bhutan is one of the
+            world's most densely forested countries — and one of the very few
+            nations that is proudly carbon-negative. Environmental protection
+            is not simply policy here; it is enshrined within Bhutan's
+            Constitution, which mandates that at least 60% of the country must
+            remain under forest cover for all time.
+          </p>
+          <p class="reveal">
+            This deep commitment to conservation has created one of the most
+            pristine ecosystems on Earth. From the snow leopard roaming the
+            high Himalayas and the endangered black-necked cranes arriving each
+            winter, to Bengal tigers thriving at extraordinary altitudes,
+            Bhutan's wilderness remains remarkably untouched.
+          </p>
+
+          {/* Collapsed by default — revealed via Read more */}
+          <div id="wildlife-more" class="hidden space-y-5">
+            <p>
+              Ancient forests, remote valleys and sacred mountains are also
+              woven with stories and mythology. Among them is the legend of
+              the Yeti — the elusive guardian of the high Himalayas, long
+              believed to inhabit Bhutan's remote alpine regions and still
+              deeply rooted in local folklore.
+            </p>
+            <p>
+              It is this rare balance between nature, spirituality and
+              preservation that sets luxury journeys through Bhutan apart —
+              offering privileged access to a kingdom that protects its soul
+              as carefully as it welcomes its guests.
+            </p>
+          </div>
+        </div>
+
+        {/* Read more / less toggle */}
+        <button
+          id="wildlife-toggle"
+          class="mt-6 inline-flex items-center gap-3 text-sm tracking-wider text-ink hover:text-brand-orange transition-colors duration-300 border-b border-ink/40 pb-1 hover:border-brand-orange"
+        >
+          <span class="wildlife-toggle-label">Read more</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="wildlife-toggle-icon transition-transform duration-500">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Image RIGHT */}
+      <div class="lg:col-span-6 lg:order-2">
+        <div class="relative w-full aspect-[3/4] overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(19,27,112,0.4)] img-zoom lg:sticky lg:top-28">
+          <img src="/images/wildlife.jpg" alt="Bhutan wildlife" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const toggle = document.getElementById("wildlife-toggle");
+  const more = document.getElementById("wildlife-more");
+  const label = toggle?.querySelector(".wildlife-toggle-label");
+  const icon = toggle?.querySelector(".wildlife-toggle-icon");
+
+  toggle?.addEventListener("click", () => {
+    if (!more) return;
+    const open = !more.classList.contains("hidden");
+    if (open) {
+      more.classList.add("hidden");
+      if (label) label.textContent = "Read more";
+      icon?.classList.remove("rotate-180");
+    } else {
+      more.classList.remove("hidden");
+      if (label) label.textContent = "Read less";
+      icon?.classList.add("rotate-180");
+    }
+  });
+</script>

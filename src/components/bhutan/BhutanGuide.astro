@@ -1,0 +1,151 @@
+---
+/**
+ * A Guest's Guide — content left, map right.
+ * The map has a cursor-following magnifying lens on hover (read details under the cursor).
+ * Below the map: "View large image" → opens a lightbox with the full image.
+ */
+---
+
+<section id="bhutan-guide" class="bg-paper relative py-20 lg:py-24 border-t border-b border-line">
+  <div class="container-edge mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+      {/* Copy */}
+      <div class="lg:col-span-5">
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Explore the Kingdom</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink mb-6 reveal">
+          A guest's guide<br />to Bhutan.
+        </h2>
+        <p class="text-ink-soft text-base lg:text-lg leading-relaxed reveal">
+          From sacred monasteries to wildlife sanctuaries, discover the landmarks,
+          valleys, and hidden treasures that make Bhutan extraordinary.
+        </p>
+      </div>
+
+      {/* Map with magnifier */}
+      <div class="lg:col-span-7">
+        <div
+          id="map-wrap"
+          class="relative w-full aspect-[4/3] overflow-hidden rounded-sm bg-cream p-4 lg:p-8 shadow-[0_30px_60px_-30px_rgba(19,27,112,0.25)] cursor-crosshair"
+        >
+          <img
+            id="map-image"
+            src="/images/bhutan-map.webp"
+            alt="Map of Bhutan"
+            class="w-full h-full object-contain pointer-events-none select-none"
+            loading="lazy"
+          />
+
+          {/* Magnifier lens — appears on hover, follows cursor */}
+          <div
+            id="map-lens"
+            class="absolute w-44 h-44 rounded-full border-2 border-brand-orange shadow-[0_10px_30px_rgba(0,0,0,0.25)] pointer-events-none opacity-0 transition-opacity duration-200"
+            style="background-image: url('/images/bhutan-map.webp'); background-repeat: no-repeat; background-color: #FAF7F1;"
+          ></div>
+        </div>
+
+        {/* View large image trigger */}
+        <button
+          id="map-open"
+          class="mt-5 inline-flex items-center gap-3 text-sm tracking-wider text-ink hover:text-brand-orange transition-colors duration-300 border-b border-ink/40 pb-1 hover:border-brand-orange"
+        >
+          View large image
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-500">
+            <polyline points="15 3 21 3 21 9" />
+            <polyline points="9 21 3 21 3 15" />
+            <line x1="21" y1="3" x2="14" y2="10" />
+            <line x1="3" y1="21" x2="10" y2="14" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  {/* Lightbox modal */}
+  <div
+    id="map-modal"
+    class="fixed inset-0 z-[200] bg-charcoal/95 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 flex items-center justify-center px-6"
+  >
+    <button
+      id="map-close"
+      class="absolute top-6 right-6 lg:top-10 lg:right-10 w-12 h-12 rounded-full border border-cream/50 text-cream flex items-center justify-center hover:bg-cream hover:text-charcoal transition-colors duration-300"
+      aria-label="Close large map"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+
+    <div class="w-full max-w-6xl mx-auto">
+      <div class="relative w-full bg-cream rounded-sm p-6 lg:p-10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]">
+        <img src="/images/bhutan-map.webp" alt="Map of Bhutan" class="w-full h-auto object-contain max-h-[80vh]" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ---- Magnifier lens ----
+  const wrap = document.getElementById("map-wrap") as HTMLElement | null;
+  const img = document.getElementById("map-image") as HTMLImageElement | null;
+  const lens = document.getElementById("map-lens") as HTMLElement | null;
+
+  const ZOOM = 2.4; // magnification factor
+  const LENS_SIZE = 176; // matches w-44 h-44
+
+  if (wrap && img && lens) {
+    wrap.addEventListener("mouseenter", () => {
+      lens.style.opacity = "1";
+    });
+    wrap.addEventListener("mouseleave", () => {
+      lens.style.opacity = "0";
+    });
+    wrap.addEventListener("mousemove", (e) => {
+      const rect = img.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Position lens centered on cursor (relative to wrap)
+      const wrapRect = wrap.getBoundingClientRect();
+      const lensX = e.clientX - wrapRect.left - LENS_SIZE / 2;
+      const lensY = e.clientY - wrapRect.top - LENS_SIZE / 2;
+      lens.style.left = `${lensX}px`;
+      lens.style.top = `${lensY}px`;
+
+      // Background size = zoomed image dimensions
+      const bgW = rect.width * ZOOM;
+      const bgH = rect.height * ZOOM;
+      lens.style.backgroundSize = `${bgW}px ${bgH}px`;
+
+      // Position the background so the cursor point shows in the center of the lens
+      const bgX = -(x * ZOOM - LENS_SIZE / 2);
+      const bgY = -(y * ZOOM - LENS_SIZE / 2);
+      lens.style.backgroundPosition = `${bgX}px ${bgY}px`;
+    });
+  }
+
+  // ---- Lightbox modal ----
+  const modal = document.getElementById("map-modal");
+  const openBtn = document.getElementById("map-open");
+  const closeBtn = document.getElementById("map-close");
+
+  function openMap() {
+    if (!modal) return;
+    modal.style.opacity = "1";
+    modal.style.pointerEvents = "auto";
+    document.documentElement.style.overflow = "hidden";
+  }
+  function closeMap() {
+    if (!modal) return;
+    modal.style.opacity = "0";
+    modal.style.pointerEvents = "none";
+    document.documentElement.style.overflow = "";
+  }
+
+  openBtn?.addEventListener("click", openMap);
+  closeBtn?.addEventListener("click", closeMap);
+  modal?.addEventListener("click", (e) => { if (e.target === modal) closeMap(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMap(); });
+</script>

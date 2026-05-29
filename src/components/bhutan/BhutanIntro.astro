@@ -1,50 +1,53 @@
 ---
 /**
- * Bhutan — centered editorial intro.
- * Mirrors the Journeys intro pattern. Drop in the client copy when ready.
+ * Bhutan — "Where the earth touches the sky" intro.
+ * Image left, content right (sticky scroll-friendly).
  */
 ---
 
-<section id="bhutan-intro" class="bg-cream relative">
-  <div class="container-edge mx-auto py-20 lg:py-28">
-    <div class="max-w-3xl mx-auto text-center">
+<section id="bhutan-intro" class="bg-cream relative py-20 lg:py-24">
+  <div class="container-edge mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-      <p class="text-base text-brand-orange leading-relaxed mb-10 reveal">
-        [Eyebrow tagline — to be supplied by client]
-      </p>
-
-      <div class="space-y-6 text-ink-soft text-base leading-relaxed">
-        <p class="reveal">
-          [Opening paragraph about Bhutan — the kingdom, its character,
-          why it draws travellers seeking something more than sightseeing.
-          To be supplied.]
-        </p>
-
-        <p class="reveal">
-          [Second paragraph — the depth of culture, the rhythm of life,
-          what makes Bhutan distinct from anywhere else. To be supplied.]
-        </p>
-
-        <p class="reveal">
-          [Third paragraph — closing reflection. What a traveller takes home.
-          To be supplied.]
-        </p>
+      {/* Image */}
+      <div class="lg:col-span-6">
+        <div class="relative w-full aspect-[3/4] overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(19,27,112,0.4)] img-zoom">
+          <img src="/images/bhutan-hero.jpg" alt="Bhutan" class="w-full h-full object-cover" loading="lazy" />
+        </div>
       </div>
 
-      <div class="mt-12 reveal-fast">
-        <a
-          href="#experiences"
-          class="group inline-flex items-center gap-4 bg-brand-orange text-cream rounded-full pl-7 pr-3 py-2.5 hover:bg-brand-blue transition-colors duration-500"
-        >
-          <span class="text-sm tracking-wider">Explore Bhutan</span>
-          <span class="w-10 h-10 rounded-full bg-cream/15 flex items-center justify-center transition-transform duration-500 group-hover:translate-y-0.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <polyline points="19 12 12 19 5 12" />
-            </svg>
-          </span>
-        </a>
+      {/* Copy */}
+      <div class="lg:col-span-6 lg:sticky lg:top-28">
+        <p class="text-eyebrow text-brand-orange mb-6 reveal-fast">Bhutan</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink mb-8 reveal">
+          Where the earth<br />
+          touches the sky.
+        </h2>
+
+        <div class="space-y-5 text-ink-soft text-base lg:text-lg leading-relaxed">
+          <p class="reveal">
+            One of the world's last untouched countries, Bhutan is a place where
+            tradition, tranquility and cultural integrity remain beautifully preserved.
+          </p>
+          <p class="reveal">
+            Here, luxury is quiet — private audiences with monks, meditative walks
+            along pine-scented trails, forest lodges steeped in calm, and riverside
+            dinners beneath starlit skies.
+          </p>
+          <p class="reveal">
+            This is more than a destination. It's a rare encounter with meaning.
+          </p>
+          <p class="reveal">
+            For the discerning traveller, Bhutan offers an unparalleled blend of
+            spiritual depth, vibrant culture, and breathtaking landscapes. Through
+            thoughtfully curated Bhutan luxury tours, luxury is not defined by excess,
+            but by the rare privilege of authenticity — private moments with monks,
+            serene stays in valley-side lodges, and immersive encounters that nourish
+            the soul.
+          </p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>

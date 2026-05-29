@@ -1,0 +1,93 @@
+---
+/**
+ * Why Bhutan? — Seven rounded tiles with stroke icons on top, copy below.
+ * 3-column grid: 3 + 3 + 1 on desktop, responsive collapse below.
+ */
+
+interface Card {
+  title: string;
+  body: string;
+  iconPath: string;
+}
+
+const cards: Card[] = [
+  { title: "To feel",
+    body: "Deep connection with ancient wisdom and living traditions.",
+    iconPath: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" },
+  { title: "To celebrate",
+    body: "Life's milestones in one of the world's most sacred places.",
+    iconPath: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" },
+  { title: "To rejuvenate",
+    body: "Find stillness, clarity and renewal in pristine landscapes.",
+    iconPath: "M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.8 2c1.2 1.5 4.2 6.5 4.2 11.5a8.5 8.5 0 0 1-8.5 8.5z M2 21c0-3 1.85-5.36 5.08-6 1.5-.3 5.42-.5 7.42-3" },
+  { title: "To feel inspired",
+    body: "Encounter a culture that measures success by happiness.",
+    iconPath: "M12 2v2 M12 20v2 M4.93 4.93l1.41 1.41 M17.66 17.66l1.41 1.41 M2 12h2 M20 12h2 M6.34 17.66l-1.41 1.41 M19.07 4.93l-1.41 1.41 M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" },
+  { title: "Sacred Landscapes",
+    body: "Pristine valleys, ancient monasteries, and mountain peaks that touch the sky.",
+    iconPath: "M3 20h18 M5 20l4-9 3 5 3-8 4 12" },
+  { title: "Living Culture",
+    body: "Traditions passed down through centuries, still vibrant and authentic today.",
+    iconPath: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z" },
+  { title: "Gross National Happiness",
+    body: "The only country that measures success by the wellbeing of its people.",
+    iconPath: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M8 14s1.5 2 4 2 4-2 4-2 M9 9h.01 M15 9h.01" },
+];
+---
+
+<section id="why-bhutan" class="bg-cream relative py-20 lg:py-24">
+  <div class="container-edge mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-14 lg:mb-16">
+      <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">The Kingdom of Happiness</p>
+      <h2 class="font-display text-h1 leading-[1.02] text-ink reveal">
+        Why Bhutan?
+      </h2>
+    </div>
+
+    {/* Row 1 — 4 tiles */}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mb-5 lg:mb-6">
+      {cards.slice(0, 4).map((c) => (
+        <article class="why-bx-tile group bg-paper border border-line rounded-2xl p-6 lg:p-7 transition-all duration-500 hover:border-brand-orange hover:-translate-y-1 hover:shadow-[0_24px_50px_-30px_rgba(242,100,26,0.35)]">
+          <span class="block text-brand-orange mb-5 transition-transform duration-500 group-hover:scale-110">
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={`<path d="${c.iconPath}" />`}
+            />
+          </span>
+          <h3 class="font-display text-h3 leading-[1.1] text-ink mb-3">{c.title}</h3>
+          <p class="text-ink-soft text-base leading-relaxed">{c.body}</p>
+        </article>
+      ))}
+    </div>
+
+    {/* Row 2 — 3 tiles */}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {cards.slice(4).map((c) => (
+        <article class="why-bx-tile group bg-paper border border-line rounded-2xl p-7 lg:p-8 transition-all duration-500 hover:border-brand-orange hover:-translate-y-1 hover:shadow-[0_24px_50px_-30px_rgba(242,100,26,0.35)]">
+          <span class="block text-brand-orange mb-5 transition-transform duration-500 group-hover:scale-110">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={`<path d="${c.iconPath}" />`}
+            />
+          </span>
+          <h3 class="font-display text-h3 leading-[1.1] text-ink mb-3">{c.title}</h3>
+          <p class="text-ink-soft text-base leading-relaxed">{c.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

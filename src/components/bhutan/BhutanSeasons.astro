@@ -1,0 +1,139 @@
+---
+/**
+ * Year-round beauty — click-driven carousel, one season at a time.
+ * No autoplay. Strictly arrow / dot click.
+ */
+
+interface Season {
+  name: string;
+  months: string;
+  blurb: string;
+  temp: string;
+  rainfall: string;
+  image: string;
+}
+
+const seasons: Season[] = [
+  { name: "Spring", months: "MAR – MAY",
+    blurb: "Valleys come alive with blooming rhododendrons, wildflowers and magnolias.",
+    temp: "15°C to 27°C (59°F to 80°F)",
+    rainfall: "Mild rainfall begins late May.",
+    image: "/images/season-spring.jpg" },
+  { name: "Summer", months: "JUN – AUG",
+    blurb: "Rain-kissed valleys, misty forests, and dramatic skies.",
+    temp: "10°C to 23°C (50°F to 73°F)",
+    rainfall: "Light to moderate rainfall, usually in the afternoons and evenings.",
+    image: "/images/season-summer.jpg" },
+  { name: "Autumn", months: "SEP – NOV",
+    blurb: "Clear skies, harvest landscapes and golden rice fields. Ideal for trekking.",
+    temp: "12°C to 22°C (53°F to 71°F)",
+    rainfall: "Dry and sunny.",
+    image: "/images/season-autumn.jpg" },
+  { name: "Winter", months: "DEC – FEB",
+    blurb: "Snow-dusted dzongs and crisp blue skies.",
+    temp: "-2°C to 15°C (28°F to 59°F)",
+    rainfall: "Dry and sunny in most regions.",
+    image: "/images/season-winter.jpg" },
+];
+---
+
+<section id="bhutan-seasons" class="bg-paper relative py-20 lg:py-24 border-t border-b border-line">
+  <div class="container-edge mx-auto">
+
+    {/* Header with arrows on the right */}
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12 lg:mb-14">
+      <div>
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Year-Round Beauty</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink max-w-2xl reveal">
+          Every season tells a story.
+        </h2>
+        <p class="text-ink-soft text-base lg:text-lg leading-relaxed max-w-2xl mt-6 reveal">
+          Bhutan is not a "once-in-a-lifetime" destination — it's a country that
+          calls you back, season after season. Year-round, guests can indulge in
+          bespoke wellness retreats, meditative experiences with monks, curated
+          art and textile tours, and intimate cultural encounters that transcend
+          the calendar.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-start md:items-end gap-4 shrink-0">
+        <div class="flex items-center gap-3">
+          <button class="se-prev w-12 h-12 rounded-full bg-brand-orange text-cream flex items-center justify-center hover:bg-brand-blue transition-colors duration-300" aria-label="Previous season">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+          </button>
+          <button class="se-next w-12 h-12 rounded-full bg-brand-orange text-cream flex items-center justify-center hover:bg-brand-blue transition-colors duration-300" aria-label="Next season">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
+        </div>
+        <div class="text-sm tracking-widest font-mono text-ink-mute">
+          <span class="se-current">01</span>
+          <span class="opacity-50 mx-1">/</span>
+          <span>0{seasons.length}</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Carousel — one season at a time, split into image + content */}
+    <div class="seasons-swiper !overflow-hidden">
+      <div class="swiper-wrapper">
+        {seasons.map((s) => (
+          <div class="swiper-slide">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center bg-cream rounded-2xl p-6 lg:p-8">
+              <div class="lg:col-span-6 relative overflow-hidden rounded-xl aspect-[4/3]">
+                <img src={s.image} alt={s.name} class="w-full h-full object-cover" loading="lazy" />
+                <span class="absolute top-4 left-4 text-eyebrow text-cream bg-brand-orange rounded-full px-3 py-1.5">{s.months}</span>
+              </div>
+              <div class="lg:col-span-6">
+                <h3 class="font-display text-display text-brand-orange leading-none mb-5">{s.name}</h3>
+                <p class="text-ink text-lg lg:text-xl leading-relaxed mb-7">{s.blurb}</p>
+                <div class="space-y-3 pt-5 border-t border-ink/15">
+                  <div>
+                    <p class="text-eyebrow text-ink-mute mb-1">Temperature</p>
+                    <p class="text-sm text-ink">{s.temp}</p>
+                  </div>
+                  <div>
+                    <p class="text-eyebrow text-ink-mute mb-1">Rainfall</p>
+                    <p class="text-sm text-ink">{s.rainfall}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, EffectFade } from "swiper/modules";
+  import "swiper/css";
+  import "swiper/css/effect-fade";
+
+  new Swiper(".seasons-swiper", {
+    modules: [Navigation, EffectFade],
+    slidesPerView: 1,
+    effect: "fade",
+    fadeEffect: { crossFade: true },
+    speed: 600,
+    loop: true,
+    navigation: { prevEl: ".se-prev", nextEl: ".se-next" },
+    on: {
+      init(s) { updateCounter(s.realIndex); },
+      slideChange(s) { updateCounter(s.realIndex); },
+    },
+  });
+
+  function updateCounter(realIndex: number) {
+    const el = document.querySelector(".se-current");
+    if (el) el.textContent = String(realIndex + 1).padStart(2, "0");
+  }
+</script>

@@ -1,0 +1,180 @@
+---
+/**
+ * OPTION B — Featured Journeys (Matour "Discover" style)
+ * Left: vertical list of journey titles with numbers.
+ * Right: large landscape preview image that swaps based on which title is hovered.
+ *        Active item also reveals "Learn more" + excerpt inline.
+ */
+
+interface Journey {
+  title: string;
+  location: string;
+  excerpt: string;
+  landscape: string;
+  slug: string;
+}
+
+const journeys: Journey[] = [
+  { title: "From burnout to Bhutan",     location: "Bhutan", excerpt: "Designed for those who have given everything to their work and need to find themselves again.",                              landscape: "/images/journeys/landscape-1.jpg", slug: "from-burnout-to-bhutan" },
+  { title: "The letting go journey",     location: "Bhutan", excerpt: "A compassionate framework for navigating change, grief, and release.",                                                       landscape: "/images/journeys/landscape-2.jpg", slug: "the-letting-go-journey" },
+  { title: "Women with altitude",        location: "Bhutan", excerpt: "Space to think clearly, to hear yourself, and to return with renewed clarity and purpose.",                                  landscape: "/images/journeys/landscape-3.jpg", slug: "women-with-altitude" },
+  { title: "The unwritten chapter",      location: "Bhutan", excerpt: "Bhutan as a setting for creativity, writing, and personal recalibration.",                                                   landscape: "/images/journeys/landscape-4.jpg", slug: "the-unwritten-chapter" },
+  { title: "Love and fertility",         location: "Bhutan", excerpt: "Exploring fertility, love, and connection through ritual, reflection, and shared experience.",                               landscape: "/images/journeys/landscape-5.jpg", slug: "love-and-fertility" },
+  { title: "The hidden Bhutan series",   location: "Bhutan", excerpt: "Unique encounters with monks, artisans, and wisdom keepers of the Himalayas.",                                               landscape: "/images/journeys/landscape-6.jpg", slug: "the-hidden-bhutan-series" },
+  { title: "Himalayan rite of passage",  location: "Bhutan", excerpt: "Trekking, monastery immersion, and rituals of renewal — you will leave changed.",                                            landscape: "/images/journeys/landscape-7.jpg", slug: "himalayan-rite-of-passage" },
+];
+---
+
+<section id="featured-journeys-b" class="section-y bg-cream relative overflow-hidden">
+  <div class="container-edge mx-auto">
+
+    {/* Header */}
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <div>
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Featured Journeys</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink max-w-2xl reveal">
+          Stories crafted, slowly.
+        </h2>
+      </div>
+      <p class="text-ink-soft max-w-md reveal text-base leading-relaxed">
+        Each journey is hand-built around an idea, a feeling, a quiet intention.
+        Discover the ones we've shaped this season.
+      </p>
+    </div>
+
+    {/* List + Preview */}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+
+      {/* ============ LEFT — Journey list ============ */}
+      <ul class="journey-list lg:col-span-7 divide-y divide-ink/15 border-t border-b border-ink/15">
+        {journeys.map((j, i) => (
+          <li
+            class="journey-item group relative"
+            data-index={i}
+          >
+            <a href={`/journeys/${j.slug}`} class="block py-6 lg:py-7 px-2 lg:px-4 transition-colors duration-500">
+              <div class="grid grid-cols-12 items-center gap-4 lg:gap-6">
+
+                {/* Number */}
+                <div class="col-span-2 lg:col-span-1">
+                  <span class="ji-number font-mono text-sm text-ink-mute transition-colors duration-300">
+                    0{i + 1}
+                  </span>
+                </div>
+
+                {/* Title + (hover-reveal) excerpt */}
+                <div class="col-span-10 lg:col-span-8">
+                  <h3 class="ji-title font-display text-h3 lg:text-h2 leading-[1.05] text-ink transition-all duration-500">
+                    {j.title}
+                  </h3>
+                  <div class="ji-meta overflow-hidden max-h-0 group-hover:max-h-32 transition-[max-height] duration-700 ease-out">
+                    <p class="text-sm lg:text-base text-ink-soft mt-3 max-w-xl leading-relaxed">
+                      {j.excerpt}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Days + arrow */}
+                <div class="hidden lg:flex col-span-3 items-center justify-end gap-5">
+                  <span class="text-eyebrow text-ink-mute">{j.days}</span>
+                  <span class="w-11 h-11 rounded-full border border-ink/30 text-ink flex items-center justify-center transition-all duration-500 group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-cream">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-500 group-hover:translate-x-0.5">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </span>
+                </div>
+
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* ============ RIGHT — Sticky preview image ============ */}
+      <div class="hidden lg:block lg:col-span-5 lg:sticky lg:top-32">
+        <div class="journey-preview-stage relative w-full aspect-[3/4] overflow-hidden rounded-sm shadow-[0_40px_80px_-30px_rgba(19,27,112,0.45)]">
+          {journeys.map((j, i) => (
+            <img
+              src={j.landscape}
+              alt={j.title}
+              class="journey-preview-img absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+              style={`opacity:${i === 0 ? 1 : 0};`}
+              data-index={i}
+              loading="lazy"
+            />
+          ))}
+          {/* Subtle gradient for any caption layer (not used here, kept for parity) */}
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent pointer-events-none"></div>
+
+          {/* Active title pill at bottom */}
+          <div class="absolute bottom-5 left-5 right-5 text-cream flex items-end justify-between">
+            <div>
+              <p class="text-eyebrow text-cream/75 mb-1.5"><span class="jb-location">Bhutan</span></p>
+              <p class="font-display text-h3 leading-none jb-title">{journeys[0].title}</p>
+            </div>
+            <span class="text-eyebrow text-cream/85 jb-days">{journeys[0].days}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Active item styling */
+  .journey-item.is-active {
+    background: rgba(242, 100, 26, 0.04);
+  }
+  .journey-item.is-active .ji-title {
+    color: var(--color-brand-orange);
+    transform: translateX(8px);
+  }
+  .journey-item.is-active .ji-number {
+    color: var(--color-brand-orange);
+  }
+  .ji-title {
+    transition: transform 0.5s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1)),
+                color 0.4s ease;
+  }
+  /* Default-active first row on load */
+  .journey-list .journey-item:first-child {
+    /* reset is handled in JS — this avoids flash */
+  }
+</style>
+
+<script>
+  type Journey = { title: string; location: string; days: string };
+
+  const items = document.querySelectorAll<HTMLElement>(".journey-item");
+  const images = document.querySelectorAll<HTMLImageElement>(".journey-preview-img");
+  const titleEl = document.querySelector<HTMLElement>(".jb-title");
+  const daysEl = document.querySelector<HTMLElement>(".jb-days");
+  const locationEl = document.querySelector<HTMLElement>(".jb-location");
+
+  const journeyData: Journey[] = Array.from(items).map((it) => ({
+    title: it.querySelector(".ji-title")?.textContent?.trim() || "",
+    location: "Bhutan",
+    days: it.querySelector(".text-eyebrow.text-ink-mute")?.textContent?.trim() || "",
+  }));
+
+  function activate(i: number) {
+    items.forEach((it, idx) => it.classList.toggle("is-active", idx === i));
+    images.forEach((img, idx) => {
+      (img as HTMLElement).style.opacity = idx === i ? "1" : "0";
+    });
+    if (titleEl) titleEl.textContent = journeyData[i].title;
+    if (daysEl) daysEl.textContent = journeyData[i].days;
+    if (locationEl) locationEl.textContent = journeyData[i].location;
+  }
+
+  // Start with first item active
+  activate(0);
+
+  items.forEach((item, i) => {
+    item.addEventListener("mouseenter", () => activate(i));
+    item.addEventListener("focusin", () => activate(i));
+  });
+</script>

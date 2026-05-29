@@ -1,0 +1,26 @@
+---
+/**
+ * Journeys — half-page hero.
+ * Image background + title only. Everything else lives in the intro section below.
+ */
+---
+
+<section class="relative w-full h-[55vh] lg:h-[60vh] overflow-hidden bg-charcoal">
+  <img
+    src="/images/journeys-hero.jpg"
+    alt=""
+    class="absolute inset-0 w-full h-full object-cover"
+    loading="eager"
+  />
+
+  {/* Gradient overlay */}
+  <div class="absolute inset-0 bg-gradient-to-b from-charcoal/30 via-charcoal/35 to-charcoal/55 pointer-events-none"></div>
+
+  {/* Centered title */}
+  <div class="relative h-full flex items-center justify-center text-center text-cream container-edge mx-auto pt-20">
+    <h1 class="font-display text-display lg:text-hero leading-[0.98] reveal max-w-4xl">
+      Journeys that<br />
+      awaken stories within.
+    </h1>
+  </div>
+</section>

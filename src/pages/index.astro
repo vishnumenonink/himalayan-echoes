@@ -1,6 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
 import Hero from "../components/home/Hero.astro";
+import Story from "../components/home/Story.astro";
+import FeaturedJourneysA from "../components/home/FeaturedJourneysA.astro";
+import FeaturedJourneysB from "../components/home/FeaturedJourneysB.astro";
+import FeaturedJourneysC from "../components/home/FeaturedJourneysC.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import Commitment from "../components/home/Commitment.astro";
+import Recognition from "../components/home/Recognition.astro";
+import VideoSection from "../components/home/VideoSection.astro";
+import Certifications from "../components/home/Certifications.astro";
+import WhyHimalayan from "../components/home/WhyHimalayan.astro";
+import TripAdvisorCta from "../components/home/TripAdvisorCta.astro";
+import FinalCta from "../components/home/FinalCta.astro";
 ---
 
 <Base
@@ -9,12 +21,16 @@ import Hero from "../components/home/Hero.astro";
   transparentHeader={true}
 >
   <Hero />
-
-  {/* Placeholder section — next: Story, Destinations, Nature, Testimonials */}
-  <section id="story" class="section-y container-edge mx-auto">
-    <p class="text-eyebrow text-ink-mute mb-6 reveal-fast">Next up</p>
-    <h2 class="text-h1 max-w-3xl reveal">
-      Editorial story, destinations slider, immersive nature panel.
-    </h2>
-  </section>
+  <Story />
+  <FeaturedJourneysA />
+  <FeaturedJourneysB />
+  <FeaturedJourneysC />
+  <Testimonials />
+  <Commitment />
+  <Recognition />
+  <VideoSection />
+  <Certifications />
+  <WhyHimalayan />
+  <TripAdvisorCta />
+  <FinalCta />
 </Base>

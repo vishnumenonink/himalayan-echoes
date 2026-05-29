@@ -1,0 +1,128 @@
+---
+/**
+ * Video Section — full-bleed background image with editorial copy + play button.
+ * Click the play button → modal with the YouTube video plays (same video as Hero slide 3).
+ */
+
+const VIDEO_ID = "I732jx1fzv4";
+---
+
+<section id="watch" class="relative w-full h-[80vh] lg:h-screen overflow-hidden">
+  {/* Background image */}
+  <img
+    src="/images/video-background.jpg"
+    alt=""
+    class="absolute inset-0 w-full h-full object-cover"
+    loading="lazy"
+  />
+
+  {/* Cinematic gradient overlay — heavier on the LEFT for legibility */}
+  <div class="absolute inset-0 bg-gradient-to-r from-charcoal/75 via-charcoal/40 to-charcoal/15 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-charcoal/40 pointer-events-none"></div>
+
+  {/* Content layer — left aligned */}
+  <div class="relative z-10 h-full flex items-center container-edge mx-auto py-20">
+    <div class="text-cream max-w-2xl">
+      <p class="text-eyebrow text-brand-orange mb-6 reveal-fast">A Cinematic Invitation</p>
+
+      <h2 class="font-display text-display leading-[0.98] mb-8 reveal">
+        The Himalayas.<br />
+        Like never before.
+      </h2>
+
+      <p class="max-w-xl text-lede text-cream/90 leading-relaxed mb-12 reveal">
+        A cinematic invitation into the soul of the Himalayas — where ancient wisdom,
+        pure landscapes and meaningful connection come together in a journey that will
+        be remembered forever.
+      </p>
+
+      {/* Play button — opens modal */}
+      <button
+        id="video-play-trigger"
+        class="group flex items-center gap-5 cursor-pointer"
+        aria-label="Watch the video"
+      >
+        <span class="relative w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-brand-orange/95 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+          {/* Pulsing ring */}
+          <span class="absolute inset-0 rounded-full border border-cream/40 animate-pulse-ring pointer-events-none"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-cream translate-x-[2px]">
+            <polygon points="6 4 20 12 6 20 6 4" />
+          </svg>
+        </span>
+        <span class="text-eyebrow tracking-widest text-cream">Watch the Video Now</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+{/* ============ Modal ============ */}
+<div
+  id="video-modal"
+  class="fixed inset-0 z-[200] bg-charcoal/95 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 flex items-center justify-center"
+>
+  <button
+    id="video-close"
+    class="absolute top-6 right-6 lg:top-10 lg:right-10 w-12 h-12 rounded-full border border-cream/50 text-cream flex items-center justify-center hover:bg-cream hover:text-charcoal transition-colors duration-300"
+    aria-label="Close video"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+
+  <div class="w-full max-w-6xl mx-auto px-6">
+    <div class="relative w-full aspect-video rounded-sm overflow-hidden bg-charcoal shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]">
+      <iframe
+        id="video-modal-iframe"
+        src=""
+        class="absolute inset-0 w-full h-full"
+        frameborder="0"
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes pulseRing {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0;   }
+  }
+  .animate-pulse-ring {
+    animation: pulseRing 2.4s ease-out infinite;
+  }
+</style>
+
+<script define:vars={{ VIDEO_ID }}>
+  const trigger = document.getElementById("video-play-trigger");
+  const modal = document.getElementById("video-modal");
+  const closeBtn = document.getElementById("video-close");
+  const iframe = document.getElementById("video-modal-iframe");
+
+  function openModal() {
+    if (!modal || !iframe) return;
+    iframe.src = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+    modal.style.opacity = "1";
+    modal.style.pointerEvents = "auto";
+    document.documentElement.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    if (!modal || !iframe) return;
+    iframe.src = "";  // stops playback
+    modal.style.opacity = "0";
+    modal.style.pointerEvents = "none";
+    document.documentElement.style.overflow = "";
+  }
+
+  trigger?.addEventListener("click", openModal);
+  closeBtn?.addEventListener("click", closeModal);
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+</script>

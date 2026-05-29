@@ -1,0 +1,99 @@
+---
+/**
+ * Recognition — "As featured in" press logo strip.
+ *
+ * 9 logos arranged in two rows: 5 on top, 4 on the bottom (centred).
+ * Grayscale on load, color on hover. Staggered fade-in on scroll-in.
+ */
+
+const logos = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => ({
+  src: `/images/featured/${n}.webp`,
+  alt: `Press feature ${n}`,
+}));
+
+const rowOne = logos.slice(0, 5);
+const rowTwo = logos.slice(5, 9);
+---
+
+<section id="recognition" class="bg-cream relative pt-24 lg:pt-28 pb-24 lg:pb-28">
+  <div class="container-edge mx-auto">
+
+    {/* Header */}
+    <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+      <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Recognition</p>
+      <h2 class="text-h1 font-medium tracking-tight leading-[1.02] text-ink mb-6 reveal" style="font-family: var(--font-body);">
+        As featured in.
+      </h2>
+      <p class="text-ink-soft text-base lg:text-lg leading-relaxed max-w-2xl mx-auto reveal">
+        Trusted by leading global publications for our authentic approach to
+        transformative Himalayan travel.
+      </p>
+    </div>
+
+    {/* Row 1 — 5 logos */}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-12 lg:gap-y-16 gap-x-8 items-center mb-12 lg:mb-16">
+      {rowOne.map((logo, i) => (
+        <div class="logo-cell flex items-center justify-center h-16 lg:h-20 px-3" data-stagger={i}>
+          <img src={logo.src} alt={logo.alt} class="logo-img max-h-full max-w-[160px] lg:max-w-[180px] w-auto object-contain" loading="lazy" />
+        </div>
+      ))}
+    </div>
+
+    {/* Row 2 — 4 logos, centered */}
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-12 lg:gap-y-16 gap-x-8 items-center max-w-4xl mx-auto">
+      {rowTwo.map((logo, i) => (
+        <div class="logo-cell flex items-center justify-center h-16 lg:h-20 px-3" data-stagger={i + 5}>
+          <img src={logo.src} alt={logo.alt} class="logo-img max-h-full max-w-[160px] lg:max-w-[180px] w-auto object-contain" loading="lazy" />
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Initial: hidden + lifted, GSAP brings them in */
+  .logo-cell {
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: opacity, transform;
+  }
+
+  /* Logo treatment — grayscale by default, full color on hover */
+  .logo-img {
+    filter: grayscale(100%);
+    opacity: 0.55;
+    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+  }
+  .logo-cell:hover .logo-img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.04);
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const cells = gsap.utils.toArray<HTMLElement>(".logo-cell");
+
+  // Sort by data-stagger so they reveal 1 → 9 in order
+  cells.sort((a, b) =>
+    Number(a.dataset.stagger || 0) - Number(b.dataset.stagger || 0)
+  );
+
+  gsap.to(cells, {
+    opacity: 1,
+    y: 0,
+    duration: 0.7,
+    ease: "expo.out",
+    stagger: 0.18,           // ~180ms between each logo — quick, but readable
+    scrollTrigger: {
+      trigger: "#recognition",
+      start: "top 80%",
+      toggleActions: "play none none none",
+    },
+  });
+</script>

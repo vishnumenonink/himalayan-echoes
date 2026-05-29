@@ -1,0 +1,40 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "../components/home/Hero.astro";
+import Story from "../components/home/Story.astro";
+import FeaturedJourneysA from "../components/home/FeaturedJourneysA.astro";
+import FeaturedJourneysB from "../components/home/FeaturedJourneysB.astro";
+import FeaturedJourneysC from "../components/home/FeaturedJourneysC.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import Commitment from "../components/home/Commitment.astro";
+import Recognition from "../components/home/Recognition.astro";
+import VideoSection from "../components/home/VideoSection.astro";
+import Certifications from "../components/home/Certifications.astro";
+import WhyHimalayan from "../components/home/WhyHimalayan.astro";
+import TripAdvisorCta from "../components/home/TripAdvisorCta.astro";
+import FinalCta from "../components/home/FinalCta.astro";
+import ClosingImage from "../components/global/ClosingImage.astro";
+---
+
+<Base
+  title="Himalayan Echoes — Crafted Journeys (alt)"
+  description="Alternate home page with a closing image reveal after the footer."
+  transparentHeader={true}
+>
+  <Hero />
+  <Story />
+  <FeaturedJourneysA />
+  <FeaturedJourneysB />
+  <FeaturedJourneysC />
+  <Testimonials />
+  <Commitment />
+  <Recognition />
+  <VideoSection />
+  <Certifications />
+  <WhyHimalayan />
+  <TripAdvisorCta />
+  <FinalCta />
+
+  {/* Closing image revealed underneath the sticky footer */}
+  <ClosingImage slot="after-footer" />
+</Base>

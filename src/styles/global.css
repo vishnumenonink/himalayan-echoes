@@ -202,40 +202,8 @@ html.lenis body {
   to   { transform: scale(1.15); }
 }
 
-/* Vertical progress dots */
-.hero-pagination {
-  position: absolute;
-  right: var(--spacing-gutter);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.hero-pagination button {
-  width: 2px;
-  height: 32px;
-  background: rgba(255, 251, 242, 0.35);
-  border: 0;
-  cursor: pointer;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.3s ease;
-}
-.hero-pagination button.is-active {
-  background: rgba(255, 251, 242, 0.25);
-}
-.hero-pagination button.is-active::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--color-cream);
-  transform-origin: top;
-  animation: dotFill 6s linear forwards;
-}
-@keyframes dotFill {
-  from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
+/* Slide counter — monospace for steady width */
+.hero-current,
+.hero-total {
+  font-variant-numeric: tabular-nums;
 }

@@ -1,0 +1,157 @@
+---
+/**
+ * OPTION C — Featured Journeys (Matour split-screen, refined)
+ *
+ * Cream section. Header matches Option A.
+ * Below the header: full-width image stage with 7 vertical panels.
+ *   · Background = active journey's landscape image
+ *   · Active panel: solid dark title-block at the top (clear visual highlight)
+ *   · Inactive panels: just title text (no background block)
+ *   · Active panel also reveals "View more" at the bottom
+ *   · Hover any panel to activate it (no autoplay)
+ */
+
+interface Journey {
+  title: string;
+  location: string;
+  excerpt: string;
+  landscape: string;
+  slug: string;
+}
+
+const journeys: Journey[] = [
+  { title: "From burnout to Bhutan",     location: "Bhutan", excerpt: "Perspective beyond pressure and routine.",         landscape: "/images/journeys/landscape-1.jpg", slug: "from-burnout-to-bhutan" },
+  { title: "The letting go journey",     location: "Bhutan", excerpt: "Navigating change, grief, and release.",            landscape: "/images/journeys/landscape-2.jpg", slug: "the-letting-go-journey" },
+  { title: "Women with altitude",        location: "Bhutan", excerpt: "Space to think clearly. Renewed clarity.",          landscape: "/images/journeys/landscape-3.jpg", slug: "women-with-altitude" },
+  { title: "The unwritten chapter",      location: "Bhutan", excerpt: "Creativity, writing, and recalibration.",           landscape: "/images/journeys/landscape-4.jpg", slug: "the-unwritten-chapter" },
+  { title: "Love and fertility",         location: "Bhutan", excerpt: "Connection through ritual and reflection.",         landscape: "/images/journeys/landscape-5.jpg", slug: "love-and-fertility" },
+  { title: "The hidden Bhutan series",   location: "Bhutan", excerpt: "Encounters with monks, artisans, wisdom keepers.",  landscape: "/images/journeys/landscape-6.jpg", slug: "the-hidden-bhutan-series" },
+  { title: "Himalayan rite of passage",  location: "Bhutan", excerpt: "Trekking, immersion, rituals of renewal.",          landscape: "/images/journeys/landscape-7.jpg", slug: "himalayan-rite-of-passage" },
+];
+---
+
+<section id="featured-journeys-c" class="bg-cream relative overflow-hidden pt-24 lg:pt-32 pb-10 lg:pb-12">
+
+  {/* Header — matches Option A copy */}
+  <div class="container-edge mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <div>
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Featured Journeys</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink max-w-2xl reveal">
+          Stories crafted, slowly.
+        </h2>
+      </div>
+      <p class="text-ink-soft max-w-md reveal text-base leading-relaxed">
+        Each journey is hand-built around an idea, a feeling, a quiet intention.
+        Discover the ones we've shaped this season.
+      </p>
+    </div>
+  </div>
+
+  {/* ============ DESKTOP — Split-screen panels ============ */}
+  <div class="hidden lg:block">
+    <div class="relative w-full h-[78vh] overflow-hidden">
+
+      {/* Background images stack — only one visible at a time. Default active = index 5 (Hidden Bhutan Series). */}
+      {journeys.map((j, i) => (
+        <img
+          src={j.landscape}
+          alt={j.title}
+          class="jc-bg absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+          style={`opacity: ${i === 5 ? 1 : 0}; z-index: 1;`}
+          data-index={i}
+          loading={i === 5 ? "eager" : "lazy"}
+        />
+      ))}
+
+      {/* Soft global gradient for text legibility */}
+      <div class="absolute inset-0 z-[2] bg-gradient-to-b from-charcoal/25 via-transparent to-charcoal/30 pointer-events-none"></div>
+
+      {/* Panels — 7 equal columns */}
+      <div class="relative z-[5] grid h-full" style="grid-template-columns: repeat(7, 1fr);">
+        {journeys.map((j, i) => (
+          <a
+            href={`/journeys/${j.slug}`}
+            class="jc-panel group relative h-full block border-r border-cream/15 last:border-r-0"
+            data-index={i}
+          >
+            {/* Title block — sits at top of panel. Solid dark on active. */}
+            <div class="jc-title-block relative px-3 lg:px-5 py-10 lg:py-12 text-center transition-colors duration-500">
+              <p class="text-eyebrow text-cream/80 mb-3">Visit</p>
+              <p class="jc-title-text text-sm xl:text-base font-medium leading-[1.3] text-cream max-w-[18ch] mx-auto tracking-tight">
+                {j.title}
+              </p>
+            </div>
+
+            {/* Bottom CTA — only opaque when active */}
+            <div class="jc-cta absolute bottom-0 left-0 right-0 px-3 py-8 text-center opacity-0 transition-opacity duration-500 pointer-events-none">
+              <p class="text-xs text-cream/85 mb-3 max-w-[20ch] mx-auto leading-relaxed">{j.excerpt}</p>
+              <span class="text-eyebrow text-cream inline-flex items-center gap-2 border-b border-cream/60 pb-1">
+                View more
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {/* ============ MOBILE — Stacked cards ============ */}
+  <div class="lg:hidden container-edge mx-auto space-y-4 mt-4">
+    {journeys.map((j) => (
+      <a
+        href={`/journeys/${j.slug}`}
+        class="block relative w-full aspect-[16/9] overflow-hidden rounded-sm"
+      >
+        <img src={j.landscape} alt={j.title} class="w-full h-full object-cover" loading="lazy" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5 text-cream">
+          <p class="text-eyebrow text-cream/75 mb-1.5">Visit</p>
+          <p class="text-lg font-medium leading-tight">{j.title}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+
+</section>
+
+<style>
+  /* Active panel: dark title block + revealed CTA */
+  .jc-panel.is-active .jc-title-block {
+    background: var(--color-charcoal);
+  }
+  .jc-panel.is-active .jc-cta {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Inactive panel hover hint — subtle title-block tint */
+  .jc-panel:not(.is-active):hover .jc-title-block {
+    background: rgba(38, 38, 38, 0.35);
+  }
+  .jc-title-block {
+    transition: background-color 0.5s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+</style>
+
+<script>
+  const panels = document.querySelectorAll<HTMLElement>(".jc-panel");
+  const bgs = document.querySelectorAll<HTMLImageElement>(".jc-bg");
+
+  function activate(index: number) {
+    panels.forEach((p, i) => p.classList.toggle("is-active", i === index));
+    bgs.forEach((img, i) => {
+      img.style.opacity = i === index ? "1" : "0";
+    });
+  }
+
+  // Start with "The Hidden Bhutan Series" active (index 5)
+  activate(5);
+
+  panels.forEach((panel, i) => {
+    panel.addEventListener("mouseenter", () => activate(i));
+  });
+</script>

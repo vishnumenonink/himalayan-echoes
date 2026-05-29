@@ -1,0 +1,227 @@
+---
+/**
+ * Journeys page — seven alternating editorial spreads.
+ *
+ * Even index (0, 2, 4, 6) → image on left, text on right.
+ * Odd index  (1, 3, 5)    → text on left, image on right.
+ *
+ * Each spread has a massive faded brand-orange numeral as anchor,
+ * mild parallax on the image, and a CTA into the journey detail page.
+ */
+
+interface Journey {
+  title: string;
+  excerpt: string;
+  longExcerpt: string;
+  style: string;
+  location: string;
+  landscape: string;
+  slug: string;
+}
+
+const journeys: Journey[] = [
+  {
+    title: "From burnout to Bhutan",
+    excerpt: "A reset for high-performing professionals.",
+    longExcerpt: "Designed for those who have given everything to their work and need to find themselves again. This journey offers perspective beyond pressure and routine — structured rest, guided reflection, and encounters that reframe what success actually looks like.",
+    style: "Rest & perspective",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-1.jpg",
+    slug: "from-burnout-to-bhutan",
+  },
+  {
+    title: "The letting go journey",
+    excerpt: "An exploration of impermanence.",
+    longExcerpt: "Drawing on Bhutanese and Buddhist philosophies, this journey offers a compassionate framework for navigating change, grief, and release. Through ritual, landscape, and conversation, you will find that letting go is not an ending — it is an opening.",
+    style: "Grief & release",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-2.jpg",
+    slug: "the-letting-go-journey",
+  },
+  {
+    title: "Women with altitude",
+    excerpt: "Designed for women who lead.",
+    longExcerpt: "For women navigating leadership, responsibility, and the constant demand to be everything to everyone. The Himalayas offer something rare: space. Space to think clearly, to hear yourself, and to return with renewed clarity and purpose.",
+    style: "Leadership & clarity",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-3.jpg",
+    slug: "women-with-altitude",
+  },
+  {
+    title: "The unwritten chapter",
+    excerpt: "A journey for writers and artists.",
+    longExcerpt: "Bhutan as a setting for creativity, writing, and personal recalibration. Whether you are working on a book, a painting, or simply searching for your next idea, the Himalayas have a way of unlocking what has been waiting to be expressed.",
+    style: "Creativity & expression",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-4.jpg",
+    slug: "the-unwritten-chapter",
+  },
+  {
+    title: "Love and fertility",
+    excerpt: "A deeply personal and sacred journey.",
+    longExcerpt: "Exploring fertility, love, and connection through ritual, reflection, and shared experience. Bhutan holds ancient wisdom on the sacred nature of creation, and this journey creates a tender, private space for those navigating one of life's most profound chapters.",
+    style: "Connection & intention",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-5.jpg",
+    slug: "love-and-fertility",
+  },
+  {
+    title: "Himalayan freedom ride",
+    excerpt: "Remote landscapes on Royal Enfield motorcycles.",
+    longExcerpt: "A raw, immersive journey through passes, valleys, and forgotten roads that few travellers ever see. This is Bhutan without guardrails — dust, altitude, silence, and the particular freedom that only comes when you are moving through wild places under your own power.",
+    style: "Adventure & freedom",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-6.jpg",
+    slug: "himalayan-freedom-ride",
+  },
+  {
+    title: "Himalayan rite of passage",
+    excerpt: "A modern pilgrimage for travellers of any age.",
+    longExcerpt: "Combining trekking, monastery immersion, and rituals of renewal, this journey strips away the noise of modern life and replaces it with something older and truer. You will walk, you will sit in silence, and you will leave changed.",
+    style: "Pilgrimage & renewal",
+    location: "Bhutan",
+    landscape: "/images/journeys/landscape-7.jpg",
+    slug: "himalayan-rite-of-passage",
+  },
+];
+---
+
+<section id="journeys-list" class="bg-cream relative">
+  {journeys.map((j, i) => (
+    <article id={`journey-${String(i + 1).padStart(2, "0")}`} class="journey-spread relative scroll-mt-24">
+      <div class="container-edge mx-auto py-20 lg:py-28">
+        <div class={`grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center ${i % 2 === 0 ? "" : "lg:[&>.j-img]:order-2"}`}>
+
+          {/* Image side */}
+          <div class={`j-img relative lg:col-span-7 ${i % 2 === 0 ? "lg:order-1" : "lg:order-2"}`}>
+            <div class="relative w-full aspect-[3/2] overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(19,27,112,0.4)]">
+              <img
+                src={j.landscape}
+                alt={j.title}
+                class="journey-img-el w-full h-full object-cover"
+                loading="lazy"
+                data-parallax="true"
+              />
+            </div>
+          </div>
+
+          {/* Text side */}
+          <div class={`relative lg:col-span-5 ${i % 2 === 0 ? "lg:order-2" : "lg:order-1"}`}>
+            {/* Massive faded numeral anchor */}
+            <span
+              class="absolute -top-12 lg:-top-16 -left-2 font-display leading-none select-none pointer-events-none"
+              style="font-size: clamp(6rem, 9vw, 11rem); color: var(--color-brand-orange); opacity: 0.13;"
+            >
+              0{i + 1}
+            </span>
+
+            <div class="relative z-10 pt-6">
+              <h2 class="font-display text-display leading-[1.0] text-ink mb-6 reveal">
+                {j.title}
+              </h2>
+
+              <p class="text-lede text-ink-soft leading-relaxed mb-6 reveal">
+                {j.excerpt}
+              </p>
+
+              <p class="text-base text-ink-soft leading-relaxed mb-8 max-w-md reveal">
+                {j.longExcerpt}
+              </p>
+
+              {/* Meta row */}
+              <div class="flex flex-wrap gap-x-8 gap-y-3 mb-10 pt-6 border-t border-ink/15 reveal">
+                <div>
+                  <p class="text-eyebrow text-ink-mute mb-1">Theme</p>
+                  <p class="text-sm text-ink">{j.style}</p>
+                </div>
+                <div>
+                  <p class="text-eyebrow text-ink-mute mb-1">Location</p>
+                  <p class="text-sm text-ink">{j.location}</p>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <a
+                href={`/journeys/${j.slug}`}
+                class="group inline-flex items-center gap-4 bg-brand-orange text-cream rounded-full pl-7 pr-3 py-2.5 hover:bg-brand-blue transition-colors duration-500 reveal-fast"
+              >
+                <span class="text-sm tracking-wider">Begin this journey</span>
+                <span class="w-10 h-10 rounded-full bg-cream/15 flex items-center justify-center transition-transform duration-500 group-hover:translate-x-1">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Previous / Next journey navigation — bottom-right */}
+        <div class="flex justify-end mt-10 lg:mt-14">
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+            {i > 0 && (
+              <a
+                href={`#journey-${String(i).padStart(2, "0")}`}
+                class="group inline-flex items-center gap-3 text-ink hover:text-brand-orange transition-colors duration-300"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-500 group-hover:-translate-x-1">
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                <span class="text-eyebrow">Previous</span>
+              </a>
+            )}
+
+            {i > 0 && i < journeys.length - 1 && (
+              <span class="text-ink/25" aria-hidden="true">|</span>
+            )}
+
+            {i < journeys.length - 1 && (
+              <a
+                href={`#journey-${String(i + 2).padStart(2, "0")}`}
+                class="group inline-flex items-center gap-3 text-ink hover:text-brand-orange transition-colors duration-300"
+              >
+                <span class="text-eyebrow">View Next</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-500 group-hover:translate-x-1">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Thin divider between spreads (except the last) */}
+      {i < journeys.length - 1 && (
+        <div class="container-edge mx-auto">
+          <div class="border-t border-ink/10"></div>
+        </div>
+      )}
+    </article>
+  ))}
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Gentle parallax on each journey image
+  gsap.utils.toArray<HTMLImageElement>(".journey-img-el").forEach((img) => {
+    gsap.fromTo(img,
+      { yPercent: -8 },
+      {
+        yPercent: 8,
+        ease: "none",
+        scrollTrigger: {
+          trigger: img.closest("article"),
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      }
+    );
+  });
+</script>

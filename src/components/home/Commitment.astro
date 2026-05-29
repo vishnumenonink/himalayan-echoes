@@ -1,0 +1,89 @@
+---
+/**
+ * Our Commitment — full-bleed brand-blue section.
+ *
+ * Four pillars in a 2-up / 4-up grid.
+ * Each pillar: image + small numeral + title + description.
+ * Hover: image zooms gently.
+ */
+
+interface Pillar {
+  title: string;
+  description: string;
+  image: string;
+}
+
+const pillars: Pillar[] = [
+  { title: "Culture & Heritage",      description: "Preserving traditions & stories through meaningful partnerships.", image: "/images/commitment/culture-heritage.jpg" },
+  { title: "Community Empowerment",   description: "Supporting local livelihoods through fair partnerships and community-led tourism.",          image: "/images/commitment/community-empowerment.jpg" },
+  { title: "Sustainability & Nature", description: "Protecting fragile Himalayan ecosystems through conscious, low-impact travel.",              image: "/images/commitment/sustainability.jpg" },
+  { title: "Youth & Education",       description: "Investing in education, opportunity and the next generation of Himalayan leaders.",          image: "/images/commitment/youth-education.jpg" },
+];
+---
+
+<section id="commitment" class="relative overflow-hidden" style="background: var(--color-brand-blue);">
+  <div class="container-edge mx-auto py-24 lg:py-32 text-cream">
+
+    {/* Header */}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 lg:mb-20 items-end">
+      <div class="lg:col-span-7">
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Our Commitment</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-cream max-w-xl reveal">
+          Travel with heart.
+        </h2>
+      </div>
+      <p class="lg:col-span-5 text-cream/80 max-w-md leading-relaxed text-base lg:text-lg reveal">
+        Every Himalayan Echoes journey supports culture, communities, conservation
+        and future generations across the Himalayas.
+      </p>
+    </div>
+
+    {/* Pillars grid */}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 xl:gap-12">
+      {pillars.map((p) => (
+        <article class="commitment-card group">
+          {/* Image */}
+          <div class="relative aspect-[2/3] overflow-hidden rounded-sm mb-6">
+            <img
+              src={p.image}
+              alt={p.title}
+              class="commitment-img w-full h-full object-cover"
+              loading="lazy"
+            />
+            {/* Subtle bottom darken for image tone */}
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-blue/35 via-transparent to-transparent pointer-events-none"></div>
+          </div>
+
+          {/* Text — left-aligned */}
+          <div>
+            <h3 class="font-display leading-[1.15] mb-3 text-cream whitespace-nowrap" style="font-size: clamp(1.125rem, 1.35vw, 1.5rem);">
+              {p.title}
+            </h3>
+            <p class="text-sm lg:text-base text-cream/75 leading-relaxed">
+              {p.description}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+
+  {/* Decorative brand icon — cream tinted, very low opacity, top-right */}
+  <img
+    src="/icon.png"
+    alt=""
+    aria-hidden="true"
+    class="absolute top-8 right-8 lg:top-12 lg:right-12 w-[180px] lg:w-[260px] select-none pointer-events-none"
+    style="filter: brightness(0) invert(1); opacity: 0.08;"
+  />
+</section>
+
+<style>
+  .commitment-img {
+    transition: transform 1.4s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  .commitment-card:hover .commitment-img {
+    transform: scale(1.06);
+  }
+</style>

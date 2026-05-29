@@ -9,37 +9,32 @@ const { transparent = false } = Astro.props;
   id="site-header"
   data-transparent={transparent}
   class:list={[
-    "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+    "fixed top-0 left-0 right-0 z-50 transition-transform duration-500 will-change-transform",
     transparent ? "text-cream" : "text-ink bg-cream/90 backdrop-blur",
   ]}
 >
-  <div class="container-edge mx-auto flex items-center justify-between py-5">
-    <a href="/" class="flex items-center gap-3" aria-label="Himalayan Echoes home">
+  <div class="container-edge mx-auto flex items-center justify-between py-4">
+    <a href="/" class="flex items-center" aria-label="Himalayan Echoes home">
       <img
         src="/logo/logo.png"
         alt="Himalayan Echoes"
-        class="h-12 w-auto site-logo"
-        width="48"
-        height="48"
+        class="site-logo w-auto"
       />
-      <span class="font-display text-lg tracking-tight hidden sm:inline">
-        Himalayan Echoes
-      </span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-10 text-sm">
-      <a href="/journeys" class="hover:opacity-70 transition">Journeys</a>
-      <a href="/#destinations" class="hover:opacity-70 transition">Destinations</a>
-      <a href="/#story" class="hover:opacity-70 transition">Our Story</a>
-      <a href="/#journal" class="hover:opacity-70 transition">Journal</a>
+    <nav class="hidden md:flex items-center gap-10">
+      <a href="/journeys" class="nav-link">Journeys</a>
+      <a href="/#destinations" class="nav-link">Destinations</a>
+      <a href="/#story" class="nav-link">Our Story</a>
+      <a href="/#journal" class="nav-link">Journal</a>
     </nav>
 
     <a
       href="#enquire"
-      class="hidden md:inline-flex items-center gap-2 text-sm border border-current rounded-full px-5 py-2.5 hover:bg-current hover:text-cream transition-colors duration-300"
+      class="cta-pill hidden md:inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm"
     >
-      Begin a Journey
-      <span aria-hidden="true">→</span>
+      <span class="cta-text">Begin a Journey</span>
+      <span class="cta-arrow" aria-hidden="true">→</span>
     </a>
 
     <button
@@ -56,26 +51,137 @@ const { transparent = false } = Astro.props;
 </header>
 
 <style>
-  /* When header is transparent (over dark hero), invert logo to cream */
+  /* ---------- Logo sizing ---------- */
+  .site-logo {
+    height: 90px;
+    transition: height 0.4s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  header.is-scrolled .site-logo {
+    height: 84px;
+  }
+  @media (max-width: 768px) {
+    .site-logo { height: 72px; }
+    header.is-scrolled .site-logo { height: 64px; }
+  }
+  /* Drop shadow on transparent header (over dark hero) */
   header[data-transparent="true"]:not(.is-scrolled) .site-logo {
-    filter: brightness(0) invert(1);
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.35));
+  }
+
+  /* ---------- Sticky-header hide/reveal on scroll direction ---------- */
+  header.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  /* ---------- Nav links: default = header text colour, hover = brand orange + underline ---------- */
+  .nav-link {
+    position: relative;
+    color: currentColor;
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+    padding-bottom: 4px;
+    display: inline-block;
+    transition: color 0.35s ease;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5px;
+    background: var(--color-brand-orange);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.6s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--color-brand-orange);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------- CTA pill: outline default, brand-orange fill + underline on hover ---------- */
+  .cta-pill {
+    border: 1px solid currentColor;
+    color: currentColor;
+    background: transparent;
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  }
+  .cta-pill:hover,
+  .cta-pill:focus-visible {
+    background: var(--color-brand-orange);
+    color: #ffffff;
+    border-color: var(--color-brand-orange);
+  }
+  .cta-text {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 2px;
+  }
+  .cta-text::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.55s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  .cta-pill:hover .cta-text::after,
+  .cta-pill:focus-visible .cta-text::after {
+    transform: scaleX(1);
+  }
+  .cta-arrow {
+    transition: transform 0.4s ease;
+  }
+  .cta-pill:hover .cta-arrow {
+    transform: translateX(3px);
   }
 </style>
 
 <script>
   const header = document.getElementById("site-header");
-  if (header && header.dataset.transparent === "true") {
-    const onScroll = () => {
-      if (window.scrollY > 60) {
-        header.classList.add("is-scrolled");
-        header.classList.remove("text-cream");
-        header.classList.add("text-ink", "bg-cream/90", "backdrop-blur");
-      } else {
-        header.classList.remove("is-scrolled");
-        header.classList.add("text-cream");
-        header.classList.remove("text-ink", "bg-cream/90", "backdrop-blur");
+  if (header) {
+    const isTransparent = header.dataset.transparent === "true";
+    let lastScrollY = window.scrollY;
+    const SCROLL_THRESHOLD = 12;        // pixels of motion before reacting
+    const REVEAL_AT_TOP = 60;           // always show when near top
+
+    function onScroll() {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY;
+
+      // Background swap when transparent header has scrolled away from hero
+      if (isTransparent) {
+        if (currentY > REVEAL_AT_TOP) {
+          header!.classList.add("is-scrolled");
+          header!.classList.add("bg-cream/90", "backdrop-blur");
+          header!.classList.remove("text-cream");
+          header!.classList.add("text-ink");
+        } else {
+          header!.classList.remove("is-scrolled");
+          header!.classList.remove("bg-cream/90", "backdrop-blur");
+          header!.classList.add("text-cream");
+          header!.classList.remove("text-ink");
+        }
       }
-    };
+
+      // Direction-based show/hide
+      if (currentY < REVEAL_AT_TOP) {
+        header!.classList.remove("is-hidden");           // always show near top
+      } else if (Math.abs(delta) > SCROLL_THRESHOLD) {
+        if (delta > 0) header!.classList.add("is-hidden");      // scrolling down
+        else           header!.classList.remove("is-hidden");   // scrolling up
+        lastScrollY = currentY;
+      }
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
   }

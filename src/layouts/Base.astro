@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/global/Header.astro";
 import Footer from "../components/global/Footer.astro";
+import Preloader from "../components/global/Preloader.astro";
 
 interface Props {
   title?: string;
@@ -23,7 +24,8 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -51,13 +53,21 @@ const {
   </head>
 
   <body class="bg-cream text-ink antialiased">
+    <Preloader />
     <Header transparent={transparentHeader} />
 
-    <main id="main">
-      <slot />
-    </main>
+    {/* Page wrapper — solid cream background sits ABOVE any after-footer fixed layer.
+       This makes the closing-image parallax possible: the wrapper "rolls up"
+       and exposes the fixed image at the bottom of the viewport. */}
+    <div class="page-content relative z-10 bg-cream">
+      <main id="main">
+        <slot />
+      </main>
+      <Footer />
+    </div>
 
-    <Footer />
+    {/* Optional: page can supply an after-footer block (e.g. closing image reveal) */}
+    <slot name="after-footer" />
 
     <!-- Global scripts: Lenis smooth scroll + GSAP setup -->
     <script>

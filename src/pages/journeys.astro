@@ -1,25 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
+import JourneysHeroHalf from "../components/journeys/JourneysHeroHalf.astro";
+import JourneysIntro from "../components/journeys/JourneysIntro.astro";
+import JourneysList from "../components/journeys/JourneysList.astro";
+import FinalCta from "../components/home/FinalCta.astro";
 ---
 
 <Base
   title="Journeys — Himalayan Echoes"
-  description="Hand-crafted journeys across Bhutan, Nepal, Tibet and the wider Himalaya."
+  description="Stories Within — seven crafted journeys through Bhutan, designed for transformation, identity, and personal reflection."
   transparentHeader={true}
 >
-  <section class="min-h-[70vh] flex items-end bg-slate-mountain text-cream pb-24">
-    <div class="container-edge mx-auto">
-      <p class="text-eyebrow text-cream/60 mb-6 reveal-fast">Journeys</p>
-      <h1 class="text-mega leading-[0.95] reveal">
-        Every<br />path<br />a story.
-      </h1>
-    </div>
-  </section>
-
-  <section class="section-y container-edge mx-auto">
-    <p class="text-eyebrow text-ink-mute mb-6 reveal-fast">Coming next</p>
-    <h2 class="text-h1 max-w-3xl reveal">
-      Immersive listing — full-bleed imagery, horizontal storytelling, filter chips.
-    </h2>
-  </section>
+  <JourneysHeroHalf />
+  <JourneysIntro />
+  <JourneysList />
+  <FinalCta />
 </Base>

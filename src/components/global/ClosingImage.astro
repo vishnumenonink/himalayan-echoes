@@ -1,0 +1,53 @@
+---
+/**
+ * Closing Image — true parallax via `position: fixed`.
+ *
+ * The image is fixed at the bottom 400px of the viewport, z-index 0.
+ * The Base layout's page-content wrapper sits ABOVE it (z-index 10, bg-cream).
+ * As the user scrolls past the footer, the wrapper rolls up and the fixed
+ * image is gradually revealed from the bottom — it appears "stuck" while
+ * the footer drifts up over it.
+ *
+ * A 400px spacer extends the document so the user has room to scroll past
+ * the footer and see the image in full.
+ */
+
+interface Props {
+  src?: string;
+  alt?: string;
+}
+const {
+  src = "/images/footer-home-alt.jpg",
+  alt = "",
+} = Astro.props;
+---
+
+{/* Fixed image — pinned to the bottom of the viewport */}
+<div class="closing-fixed">
+  <img src={src} alt={alt} class="closing-img" loading="lazy" />
+</div>
+
+{/* Spacer — gives the user 400px of scroll past the footer */}
+<div class="closing-spacer" aria-hidden="true"></div>
+
+<style>
+  .closing-fixed {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 400px;
+    z-index: 0;          /* stays behind the page-content (z-10) */
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .closing-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .closing-spacer {
+    height: 400px;
+  }
+</style>

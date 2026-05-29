@@ -1,0 +1,56 @@
+---
+/**
+ * Bhutan — editorial image gallery.
+ * Asymmetric grid (3 + 2 split) that breaks up the page with visual rest.
+ * Uses existing landscape imagery. Swap any image as the client supplies them.
+ */
+
+const gallery = [
+  { src: "/images/journeys/landscape-1.jpg", alt: "Bhutan landscape" },
+  { src: "/images/journeys/landscape-3.jpg", alt: "Bhutan landscape" },
+  { src: "/images/journeys/landscape-4.jpg", alt: "Bhutan landscape" },
+  { src: "/images/journeys/landscape-6.jpg", alt: "Bhutan landscape" },
+  { src: "/images/journeys/landscape-7.jpg", alt: "Bhutan landscape" },
+];
+---
+
+<section id="bhutan-gallery" class="bg-cream relative py-20 lg:py-24">
+  <div class="container-edge mx-auto">
+
+    {/* Header */}
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+      <div>
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">A Glimpse</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink max-w-2xl reveal">
+          [Gallery headline — to be supplied]
+        </h2>
+      </div>
+      <p class="text-ink-soft max-w-md reveal text-base leading-relaxed">
+        [Optional gallery intro — to be supplied.]
+      </p>
+    </div>
+
+    {/* Asymmetric grid */}
+    <div class="grid grid-cols-12 gap-3 lg:gap-4">
+      {/* Row 1 */}
+      <div class="col-span-12 md:col-span-8 relative overflow-hidden rounded-sm aspect-[3/2] img-zoom">
+        <img src={gallery[0].src} alt={gallery[0].alt} class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="col-span-12 md:col-span-4 relative overflow-hidden rounded-sm aspect-[3/2] md:aspect-auto img-zoom">
+        <img src={gallery[1].src} alt={gallery[1].alt} class="w-full h-full object-cover" loading="lazy" />
+      </div>
+
+      {/* Row 2 */}
+      <div class="col-span-12 md:col-span-4 relative overflow-hidden rounded-sm aspect-[3/2] md:aspect-auto img-zoom">
+        <img src={gallery[2].src} alt={gallery[2].alt} class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="col-span-12 md:col-span-4 relative overflow-hidden rounded-sm aspect-[3/2] md:aspect-auto img-zoom">
+        <img src={gallery[3].src} alt={gallery[3].alt} class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="col-span-12 md:col-span-4 relative overflow-hidden rounded-sm aspect-[3/2] md:aspect-auto img-zoom">
+        <img src={gallery[4].src} alt={gallery[4].alt} class="w-full h-full object-cover" loading="lazy" />
+      </div>
+    </div>
+
+  </div>
+</section>

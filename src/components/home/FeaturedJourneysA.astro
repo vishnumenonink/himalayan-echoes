@@ -1,0 +1,164 @@
+---
+/**
+ * OPTION A — Featured Journeys (Black Tomato style)
+ * Horizontal carousel: 3 portrait cards visible on desktop, slide one at a time.
+ */
+
+interface Journey {
+  title: string;
+  location: string;
+  excerpt: string;
+  portrait: string;
+  slug: string;
+}
+
+const journeys: Journey[] = [
+  { title: "From burnout to Bhutan",     location: "Bhutan", excerpt: "Designed for those who have given everything to their work and need to find themselves again. This journey offers perspective beyond pressure and routine.",                              portrait: "/images/journeys/portrait-1.jpg", slug: "from-burnout-to-bhutan" },
+  { title: "The letting go journey",     location: "Bhutan", excerpt: "Drawing on Bhutanese and Buddhist philosophies, this journey offers a compassionate framework for navigating change, grief, and release.",                                                portrait: "/images/journeys/portrait-2.jpg", slug: "the-letting-go-journey" },
+  { title: "Women with altitude",        location: "Bhutan", excerpt: "For women navigating leadership, responsibility, and the constant demand to be everything to everyone. The Himalayas offer something rare: space.",                                       portrait: "/images/journeys/portrait-3.jpg", slug: "women-with-altitude" },
+  { title: "The unwritten chapter",      location: "Bhutan", excerpt: "Bhutan as a setting for creativity, writing, and personal recalibration. The Himalayas have a way of unlocking what has been waiting to be expressed.",                                   portrait: "/images/journeys/portrait-4.jpg", slug: "the-unwritten-chapter" },
+  { title: "Love and fertility",         location: "Bhutan", excerpt: "Exploring fertility, love, and connection through ritual, reflection, and shared experience. A tender, private space for one of life's most profound chapters.",                          portrait: "/images/journeys/portrait-5.jpg", slug: "love-and-fertility" },
+  { title: "The hidden Bhutan series",   location: "Bhutan", excerpt: "A collection of journeys offering unique encounters with monks, artisans, and wisdom keepers of the Himalayas — genuine meetings, built on years of relationship.",                       portrait: "/images/journeys/portrait-6.jpg", slug: "the-hidden-bhutan-series" },
+  { title: "Himalayan rite of passage",  location: "Bhutan", excerpt: "Combining trekking, monastery immersion, and rituals of renewal, this journey strips away the noise of modern life and replaces it with something older and truer.",                      portrait: "/images/journeys/portrait-7.jpg", slug: "himalayan-rite-of-passage" },
+];
+---
+
+<section id="featured-journeys-a" class="section-y bg-cream relative overflow-hidden">
+  <div class="container-edge mx-auto">
+
+    {/* Header */}
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <div>
+        <p class="text-eyebrow text-brand-orange mb-5 reveal-fast">Featured Journeys</p>
+        <h2 class="font-display text-h1 leading-[1.02] text-ink max-w-2xl reveal">
+          Stories crafted, slowly.
+        </h2>
+      </div>
+      <p class="text-ink-soft max-w-md reveal text-base leading-relaxed">
+        Each journey is hand-built around an idea, a feeling, a quiet intention.
+        Discover the ones we've shaped this season.
+      </p>
+    </div>
+
+    {/* Carousel + overlay arrows */}
+    <div class="relative">
+      <div class="journeys-a-swiper relative !overflow-visible">
+        <div class="swiper-wrapper">
+          {journeys.map((j) => (
+            <div class="swiper-slide">
+              <a href={`/journeys/${j.slug}`} class="journey-a-card group block">
+                <div class="relative w-full aspect-[3/4] overflow-hidden rounded-sm">
+                  <img
+                    src={j.portrait}
+                    alt={j.title}
+                    class="journey-a-img w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {/* Dark gradient at bottom for legibility */}
+                  <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/15 to-transparent pointer-events-none"></div>
+
+                  {/* Top: location + days */}
+                  <div class="absolute top-5 left-5 right-5 flex items-center justify-between text-cream text-eyebrow">
+                    <span>{j.location}</span>
+                    <span class="opacity-80">{j.days}</span>
+                  </div>
+
+                  {/* Bottom: title + excerpt + arrow */}
+                  <div class="absolute bottom-5 left-5 right-5 text-cream">
+                    <h3 class="font-display text-h3 leading-[1.05] mb-3">{j.title}</h3>
+                    <p class="text-sm text-cream/85 leading-relaxed max-w-[26ch] line-clamp-3">{j.excerpt}</p>
+                    <div class="mt-5 inline-flex items-center gap-3 text-sm border-b border-cream/60 pb-1 pr-1 group-hover:border-brand-orange transition-colors duration-300">
+                      <span>View journey</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-500 group-hover:translate-x-1">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Overlay arrows — vertically centered, sitting on top of the carousel edges */}
+      <button
+        class="ja-prev hidden md:flex absolute left-2 lg:-left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-cream/95 backdrop-blur border border-ink/15 text-ink items-center justify-center shadow-lg hover:bg-ink hover:text-cream transition-colors duration-300 z-30"
+        aria-label="Previous journey"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+      </button>
+      <button
+        class="ja-next hidden md:flex absolute right-2 lg:-right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-cream/95 backdrop-blur border border-ink/15 text-ink items-center justify-center shadow-lg hover:bg-ink hover:text-cream transition-colors duration-300 z-30"
+        aria-label="Next journey"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+    </div>
+
+    {/* Counter + scroll hint below */}
+    <div class="mt-8 flex items-center justify-between">
+      <div class="text-sm tracking-widest font-mono text-ink-mute">
+        <span class="ja-current">01</span>
+        <span class="opacity-50 mx-1">/</span>
+        <span class="ja-total">0{journeys.length}</span>
+      </div>
+      <p class="text-eyebrow text-ink-mute hidden md:block">Scroll · Drag · Swipe</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .journey-a-img {
+    transition: transform 1.4s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  .journey-a-card:hover .journey-a-img {
+    transform: scale(1.06);
+  }
+  /* Hide overflow for slides that scroll off screen on small viewports */
+  .journeys-a-swiper .swiper-slide {
+    height: auto;
+  }
+</style>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Mousewheel } from "swiper/modules";
+  import "swiper/css";
+
+  new Swiper(".journeys-a-swiper", {
+    modules: [Navigation, Mousewheel],
+    slidesPerView: 1.15,
+    spaceBetween: 16,
+    speed: 700,
+    breakpoints: {
+      640:  { slidesPerView: 1.6, spaceBetween: 20 },
+      768:  { slidesPerView: 2.2, spaceBetween: 24 },
+      1024: { slidesPerView: 3,   spaceBetween: 28 },
+      1280: { slidesPerView: 3,   spaceBetween: 32 },
+    },
+    navigation: { prevEl: ".ja-prev", nextEl: ".ja-next" },
+    mousewheel: {
+      forceToAxis: true,        // only horizontal wheel / trackpad gestures advance
+      releaseOnEdges: true,     // page scroll resumes when carousel reaches end
+      sensitivity: 0.8,
+    },
+    on: {
+      init(s) { updateCounter(s.realIndex); },
+      slideChange(s) { updateCounter(s.realIndex); },
+    },
+  });
+
+  function updateCounter(realIndex: number) {
+    const cur = document.querySelector(".ja-current");
+    if (cur) cur.textContent = String(realIndex + 1).padStart(2, "0");
+  }
+</script>

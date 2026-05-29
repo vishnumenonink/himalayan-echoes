@@ -10,8 +10,9 @@
 type SlideKind = "image" | "video";
 interface Slide {
   kind: SlideKind;
-  src: string;
-  vimeoId?: string;
+  src?: string;
+  youtubeId?: string;
+  startAt?: number;
   eyebrow: string;
   title: string;
   lede: string;
@@ -29,13 +30,13 @@ const slides: Slide[] = [
     kind: "image",
     src: "/images/slider-2.png",
     eyebrow: "Transformation",
-    title: "Where time stands still",
+    title: "Where time<br/>stands still",
     lede: "Trek pristine trails and explore untouched Himalayan wilderness.",
   },
   {
     kind: "video",
-    src: "",
-    vimeoId: "1149118501",
+    youtubeId: "I732jx1fzv4",
+    startAt: 0,
     eyebrow: "Welcome to Himalayan Echoes",
     title: "Journeys that transform",
     lede: "Curated luxury journeys across Bhutan, Ladakh, Nepal and the remote Himalayas.",
@@ -60,14 +61,15 @@ const slides: Slide[] = [
                 decoding="async"
               />
             )}
-            {slide.kind === "video" && (
-              <div class="absolute inset-0 w-full h-full">
+            {slide.kind === "video" && slide.youtubeId && (
+              <div class="absolute inset-0 w-full h-full overflow-hidden">
                 <iframe
-                  src={`https://player.vimeo.com/video/${slide.vimeoId}?background=1&autoplay=1&loop=1&muted=1&controls=0&dnt=1`}
-                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                  style="width: 177.77vh; height: 56.25vw; min-width: 100%; min-height: 100%;"
+                  src={`https://www.youtube-nocookie.com/embed/${slide.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${slide.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&start=${slide.startAt ?? 0}&playsinline=1&iv_load_policy=3&fs=0&disablekb=1`}
+                  class="absolute top-1/2 left-1/2 pointer-events-none yt-bg"
+                  data-yt-id={slide.youtubeId}
+                  data-yt-start={slide.startAt ?? 0}
                   frameborder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
+                  allow="autoplay; encrypted-media; picture-in-picture"
                   title="Himalayan Echoes — cinematic"
                 ></iframe>
               </div>
@@ -84,9 +86,7 @@ const slides: Slide[] = [
                 <p class="text-eyebrow text-cream/85 mb-6 slide-eyebrow">
                   {slide.eyebrow}
                 </p>
-                <h1 class="text-hero font-display leading-[0.95] slide-title">
-                  {slide.title}
-                </h1>
+                <h1 class="text-hero font-display leading-[0.95] slide-title" set:html={slide.title}></h1>
                 <p class="text-lede mt-8 max-w-2xl text-cream/85 slide-lede">
                   {slide.lede}
                 </p>
@@ -114,8 +114,34 @@ const slides: Slide[] = [
     </div>
   </div>
 
-  {/* Custom vertical pagination */}
-  <div class="hero-pagination" aria-hidden="true"></div>
+  {/* Slide counter + arrow controls (bottom right) */}
+  <div class="absolute bottom-8 right-6 md:bottom-12 md:right-12 z-30 flex items-center gap-5">
+    <div class="text-cream/80 text-sm font-mono tracking-wider tabular-nums">
+      <span class="hero-current">01</span>
+      <span class="opacity-50 mx-1">/</span>
+      <span class="hero-total">03</span>
+    </div>
+    <div class="flex gap-3">
+      <button
+        class="hero-prev w-12 h-12 rounded-full border border-cream/50 text-cream flex items-center justify-center hover:bg-cream hover:text-charcoal transition-colors duration-300"
+        aria-label="Previous slide"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+      </button>
+      <button
+        class="hero-next w-12 h-12 rounded-full border border-cream/50 text-cream flex items-center justify-center hover:bg-cream hover:text-charcoal transition-colors duration-300"
+        aria-label="Next slide"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+    </div>
+  </div>
 
   {/* Scroll cue */}
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-cream/70 z-20 hidden md:flex flex-col items-center gap-3">
@@ -134,45 +160,55 @@ const slides: Slide[] = [
   .animate-scrollCue {
     animation: scrollCue 2.4s var(--ease-in-out-quart) infinite;
   }
+
+  /* YouTube background-video true cover (16:9 preserved, fills viewport, scaled to crop YouTube's bars) */
+  .yt-bg {
+    width: max(100vw, 177.78vh);
+    height: max(100vh, 56.25vw);
+    /* Scale 1.35× so YouTube's letterbox / chrome bars are cropped off-screen */
+    transform: translate(-50%, -50%) scale(1.35);
+  }
 </style>
 
 <script>
   import Swiper from "swiper";
-  import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+  import { EffectFade, Navigation } from "swiper/modules";
   import "swiper/css";
   import "swiper/css/effect-fade";
   import { gsap } from "gsap";
 
-  const SLIDE_DURATION = 6000;
-
   const swiper = new Swiper(".hero-swiper", {
-    modules: [Autoplay, EffectFade, Pagination],
+    modules: [EffectFade, Navigation],
     effect: "fade",
     fadeEffect: { crossFade: true },
     speed: 1200,
     loop: true,
-    autoplay: {
-      delay: SLIDE_DURATION,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      el: ".hero-pagination",
-      clickable: true,
-      bulletClass: "",
-      bulletActiveClass: "is-active",
-      renderBullet: (_index, className) => {
-        return `<button class="${className}" aria-label="Go to slide"></button>`;
-      },
+    navigation: {
+      prevEl: ".hero-prev",
+      nextEl: ".hero-next",
     },
     on: {
       init(s) {
         animateSlideIn(s.slides[s.activeIndex]);
+        updateCounter(s.realIndex, s.slides.length);
       },
       slideChangeTransitionStart(s) {
         animateSlideIn(s.slides[s.activeIndex]);
+        updateCounter(s.realIndex, s.slides.length);
       },
     },
   });
+
+  function updateCounter(realIndex: number, total: number) {
+    const current = document.querySelector(".hero-current");
+    const totalEl = document.querySelector(".hero-total");
+    if (current) current.textContent = String(realIndex + 1).padStart(2, "0");
+    if (totalEl) {
+      // Swiper loop mode duplicates slides; subtract 2 for the duplicates
+      const actual = total - 2 > 0 ? total - 2 : total;
+      totalEl.textContent = String(actual).padStart(2, "0");
+    }
+  }
 
   function animateSlideIn(slideEl: HTMLElement) {
     const eyebrow = slideEl.querySelector(".slide-eyebrow");
